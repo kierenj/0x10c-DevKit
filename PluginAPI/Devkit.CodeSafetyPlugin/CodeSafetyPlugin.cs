@@ -156,6 +156,10 @@ namespace Devkit.CodeSafetyPlugin
 
             var ranges = new List<Tuple<long, long>>();
 
+            // this detects contiguous ranges of code (locations with debug information)
+            // so we can create a minimal number of hook devices.
+            // (only the attach/detatch of memory devices takes any time - even with 65,535 different
+            // memory devices there should be no overhead to emulation, which is nice)
             foreach (var offset in offsets)
             {
                 // only look at code, not data..
