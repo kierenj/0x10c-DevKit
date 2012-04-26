@@ -1,4 +1,6 @@
-This GitHub repository is currently used for downloads and feedback/issues only.
+This GitHub repository is primarily used for downloads and feedback/issues.
+
+The PluginAPI folder contains the source of DevKit plugins and the interface assembly (a .NET 4.0 assembly), DevKit.Interfaces.dll.  More information is available on the website ( http://0x10c-devkit.com/ ).
 
 Please download releases from https://github.com/kierenj/0x10c-DevKit/downloads
 
