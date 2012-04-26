@@ -40,6 +40,7 @@ namespace Devkit.WebConnectPlugin
 
         public void Interrupt(out int additionalCycles)
         {
+            // this is just a test to show interrupt processing!
             additionalCycles = 100;
             long ticks = DateTime.Now.Ticks;
             this._system.Cpu.Registers[0] = (ushort)(ticks & 0xffff);
