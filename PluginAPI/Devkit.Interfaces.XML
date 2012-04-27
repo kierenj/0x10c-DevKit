@@ -230,6 +230,11 @@
             Retrieves a representation of the emulated system and its components
             </summary>
         </member>
+        <member name="P:Devkit.Interfaces.IRuntimeManager.UI">
+            <summary>
+            Retrieves the user interface for the emulated system
+            </summary>
+        </member>
         <member name="T:Devkit.Interfaces.IBuildManager">
             <summary>
             Controls and monitors the build process
@@ -306,6 +311,11 @@
             <param name="manufacturer"></param>
             <param name="hardwareType"></param>
             <param name="revision"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.IHardwareDevice.Pulse">
+            <summary>
+            Called at a rate of 60Hz from the host system
+            </summary>
         </member>
         <member name="T:Devkit.Interfaces.BuildStatus">
             <summary>
@@ -406,6 +416,27 @@
             Gets the plugin folder
             </summary>
         </member>
+        <member name="T:Devkit.Interfaces.IDisplayContentProvider">
+            <summary>
+            Implemented by objects wishing to provide content for the DevKit system UI display
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.IDisplayContentProvider.CreateVisual">
+            <summary>
+            Create a visual to be used in the Display window for the DevKit system UI
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.IDisplayContentProvider.DisplayOpened">
+            <summary>
+            Called when the display window is opened
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.IDisplayContentProvider.DisplayClosed">
+            <summary>
+            Called when the display window is closed
+            </summary>
+        </member>
         <member name="T:Devkit.Interfaces.CpuStatus">
             <summary>
             Indicates the status of the CPU state machine
@@ -441,6 +472,33 @@
             A fault has occurred
             </summary>
         </member>
+        <member name="T:Devkit.Interfaces.ISystemUI">
+            <summary>
+            Provides a means to query and manipulate the UI associated with an emulated system
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.ISystemUI.SetDisplayContentProvider(Devkit.Interfaces.IDisplayContentProvider)">
+            <summary>
+            Sets the object that will be used by DevKit to produce content for the screen
+            </summary>
+            <param name="provider"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.ISystemUI.GetDisplayContentProvider">
+            <summary>
+            Gets the object that will be used by DevKit to produce content for the screen
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="E:Devkit.Interfaces.ISystemUI.KeyEvent">
+            <summary>
+            Fired when a key event is fired on the display window
+            </summary>
+        </member>
+        <member name="E:Devkit.Interfaces.ISystemUI.DisplayContentProviderChanged">
+            <summary>
+            Fired when the visual object used as the content of the display window is changed
+            </summary>
+        </member>
         <member name="T:Devkit.Interfaces.ICpu">
             <summary>
             Allows querying and manipulation of CPU state
@@ -451,6 +509,17 @@
             Flags an emulation fault
             </summary>
             <param name="fault"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.ICpu.Interrupt(System.UInt16)">
+            <summary>
+            Interrupts CPU execution
+            </summary>
+            <param name="interrupt"></param>
+        </member>
+        <member name="P:Devkit.Interfaces.ICpu.IsOnFire">
+            <summary>
+            Gets or sets the value of the 'on fire' flag
+            </summary>
         </member>
         <member name="P:Devkit.Interfaces.ICpu.SkipFlag">
             <summary>
@@ -724,6 +793,12 @@
             <summary>
             Handler for when the emulated system is reset
             </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.Delegates.DisplayContentProviderChangedHandler">
+            <summary>
+            Handles for when the content used in the UI display is changed
+            </summary>
+            <param name="provider"></param>
         </member>
         <member name="T:Devkit.Interfaces.Delegates.ExecutionBreakHandler">
             <summary>
