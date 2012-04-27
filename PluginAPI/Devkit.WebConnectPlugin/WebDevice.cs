@@ -5,10 +5,8 @@ using Devkit.Interfaces;
 
 namespace Devkit.WebConnectPlugin
 {
-    public class WebDevice : MemoryDevice, IHardwareDevice
+    public class WebDevice : MemoryDevice
     {
-        private IEmulatedSystem _system;
-
         public const ushort DefaultPort = 0xa000;
 
         public enum ResultCode : ushort
@@ -27,34 +25,10 @@ namespace Devkit.WebConnectPlugin
             this._port = port;
         }
 
-        public void Initialise(IEmulatedSystem system)
-        {
-            this._system = system;
-        }
-
         public override void Reset()
         {
             this._webData = null;
             this._webDataPtr = 0;
-        }
-
-        public void Interrupt(out int additionalCycles)
-        {
-            // this is just a test to show interrupt processing!
-            additionalCycles = 100;
-            long ticks = DateTime.Now.Ticks;
-            this._system.Cpu.Registers[0] = (ushort)(ticks & 0xffff);
-            this._system.Cpu.Registers[1] = (ushort)((ticks >> (16 * 1)) & 0xffff);
-            this._system.Cpu.Registers[2] = (ushort)((ticks >> (16 * 2)) & 0xffff);
-            this._system.Cpu.Registers[3] = (ushort)((ticks >> (16 * 3)) & 0xffff);
-            Reset();
-        }
-
-        public void Query(out uint manufacturer, out uint hardwareType, out ushort revision)
-        {
-            manufacturer = 0xBABE;
-            hardwareType = 0xBEEF;
-            revision = 1;
         }
 
         public override ushort Read(ushort address)

@@ -59,7 +59,6 @@ namespace Devkit.WebConnectPlugin
 
             // register the device with the controllers
             this._system.MemoryController.RegisterMemoryDevice(this._webDevice);
-            this._system.HardwareController.RegisterHardwareDevice(this._webDevice);
         }
 
         public void Action(string actionName)
@@ -90,7 +89,6 @@ namespace Devkit.WebConnectPlugin
             {
                 // unregister the device
                 this._system.MemoryController.UnregisterMemoryDevice(this._webDevice);
-                this._system.HardwareController.UnregisterHardwareDevice(this._webDevice);
                 this._webDevice = null;
             }
         }
