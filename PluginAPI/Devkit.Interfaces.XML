@@ -1,0 +1,752 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Devkit.Interfaces</name>
+    </assembly>
+    <members>
+        <member name="T:Devkit.Interfaces.IPlugin">
+            <summary>
+            Interface that plugins must implement to interface with DevKit
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.IPlugin.Action(System.String)">
+            <summary>
+            Invokes the action with the specified name
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.IPlugin.Load(Devkit.Interfaces.IWorkspace)">
+            <summary>
+            Initialises the plugin, loads it into the workspace - hooks any required events or functions
+            </summary>
+            <param name="workspace"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.IPlugin.Unload(Devkit.Interfaces.IWorkspace)">
+            <summary>
+            Uninitialises the plugin, unloads it from the workspace - unhooks and required events or functions
+            </summary>
+            <param name="workspace"></param>
+        </member>
+        <member name="P:Devkit.Interfaces.IPlugin.Guid">
+            <summary>
+            Gets the unique guid for the plugin (should not change with a new version)
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IPlugin.Name">
+            <summary>
+            Gets the name of the plugin
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IPlugin.Description">
+            <summary>
+            Gets a description of the plugin
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IPlugin.Author">
+            <summary>
+            Gets the author of the plugin
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IPlugin.Version">
+            <summary>
+            Gets the current version of the plugin
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IPlugin.Url">
+            <summary>
+            Gets the URL associated with the plugin
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IPlugin.ActionNames">
+            <summary>
+            Gets a list of named actions which can be invoked on the plugin - typically
+            will appear on a menu in the host application
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.MemoryDeviceType">
+            <summary>
+            Indicates the type of hooks/overrides a memory device implements
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.MemoryDeviceType.ReadWrite">
+            <summary>
+            Device handles both read and write requests
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.MemoryDeviceType.ReadOnly">
+            <summary>
+            Device handles only read requests
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.MemoryDeviceType.WriteOnly">
+            <summary>
+            Device handles only write requests
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.IExpressionEvaluator">
+            <summary>
+            Used to evaluate an experssion or set the target of an expression
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.IExpressionEvaluator.Evaluate(System.String)">
+            <summary>
+            Compiles and evaluates the given source string and returns the current value
+            </summary>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.IExpressionEvaluator.Set(System.String,System.Object)">
+            <summary>
+            Compiles the given source string and sets the target of the expression to a given value
+            </summary>
+            <param name="source"></param>
+            <param name="val"></param>
+        </member>
+        <member name="T:Devkit.Interfaces.MemoryDevice">
+            <summary>
+            Memory interface methods, used to handle memory access requests
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.MemoryDevice.GetAddressIndex(System.UInt16)">
+            <summary>
+            Translates the given absolute address into an 0-based index, relative to the first address
+            for this memory device
+            </summary>
+            <param name="address"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.MemoryDevice.GetIndexAddress(System.Int32)">
+            <summary>
+            Translates the given 0-based index (relative to the first address for this memory device)
+            into an absolute address
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.MemoryDevice.#ctor(System.UInt16,System.UInt16,Devkit.Interfaces.MemoryDeviceType)">
+            <summary>
+            Initialises a new instance of a memory device spanning the range of addresses given
+            </summary>
+            <param name="firstOffset"></param>
+            <param name="lastOffset"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.MemoryDevice.Reset">
+            <summary>
+            Called by the memory controller when the system is reset.  The device
+            will be returned to its initial state.
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.MemoryDevice.Read(System.UInt16)">
+            <summary>
+            Reads a single word from the requested address.  The base 
+            implementation for this method passes the request down the IO
+            chain.
+            </summary>
+            <param name="address"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.MemoryDevice.Write(System.UInt16,System.UInt16)">
+            <summary>
+            Writes a single word to the requested address.  The base
+            implementation for this method passes the request down the IO
+            chain.
+            </summary>
+            <param name="address"></param>
+            <param name="data"></param>
+        </member>
+        <member name="P:Devkit.Interfaces.MemoryDevice.Type">
+            <summary>
+            Gets the type of hooks/overrides the device implements
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.MemoryDevice.Controller">
+            <summary>
+            The memory controller of the emulated system: set when the device is registered with it
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.MemoryDevice.FirstOffset">
+            <summary>
+            Gets the first memory offset that this device handles IO requests for
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.MemoryDevice.LastOffset">
+            <summary>
+            Gets the last memory offset that this device handles IO requests for
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.MemoryDevice.InnerReadDevices">
+            <summary>
+            Gets the array of devices lower down in the read chain
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.MemoryDevice.InnerWriteDevices">
+            <summary>
+            Gets the array of devices lower down in the write chain
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.MemoryDevice.OuterReadDevices">
+            <summary>
+            Gets the array of devices higher up in the read chain
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.MemoryDevice.OuterWriteDevices">
+            <summary>
+            Gets the array of devices higher up in the write chain
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.IRuntimeManager">
+            <summary>
+            Represents the runtime manager - controls the emulated system, holds debug information
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.IRuntimeManager.Break">
+            <summary>
+            Causes the emulation to break
+            </summary>
+        </member>
+        <member name="E:Devkit.Interfaces.IRuntimeManager.ExecutionBreak">
+            <summary>
+            Fired when execution is broken or stopped
+            </summary>
+        </member>
+        <member name="E:Devkit.Interfaces.IRuntimeManager.ExecutionStarted">
+            <summary>
+            Fired when execution begins or resumes
+            </summary>
+        </member>
+        <member name="E:Devkit.Interfaces.IRuntimeManager.DebugInfoChanged">
+            <summary>
+            Fired when the current debug information changes
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IRuntimeManager.CurrentDebugInfo">
+            <summary>
+            Gets the current debug information
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IRuntimeManager.System">
+            <summary>
+            Retrieves a representation of the emulated system and its components
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.IBuildManager">
+            <summary>
+            Controls and monitors the build process
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IBuildManager.Status">
+            <summary>
+            Gets a flag indicating the status of the build manager
+            </summary>
+        </member>
+        <member name="E:Devkit.Interfaces.IBuildManager.BuildStatusChanged">
+            <summary>
+            Fired when the current build status changes
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.IDebugger">
+            <summary>
+            Performs debugging functions, inherits IExpressionEvaluator
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.EmulationFault">
+            <summary>
+            Indicates a type of emulation fault
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.EmulationFault.NoFault">
+            <summary>
+            No fault
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.EmulationFault.AttemptToWriteToOpcodeLiteral">
+            <summary>
+            The CPU attempted to write to an literal operand
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.EmulationFault.AttemptToWriteToLiteralWord">
+            <summary>
+            The CPU attempted to write to a literal word
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.EmulationFault.ReservedAdvancedOpcode">
+            <summary>
+            The CPU attempted to execute an invalid or advanced opcodse
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.IHardwareDevice">
+            <summary>
+            Represents a hardware device which may be attached to an emulated system
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.IHardwareDevice.Initialise(Devkit.Interfaces.IEmulatedSystem)">
+            <summary>
+            Called by the hardware controller, to initialise the device
+            </summary>
+            <param name="system"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.IHardwareDevice.Reset">
+            <summary>
+            Called when the emulated system is reset
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.IHardwareDevice.Interrupt(System.Int32@)">
+            <summary>
+            Handles processing of a hardware interrupt.  The additionalCycles output
+            parameter must be set to the number of additional cycles that passed during
+            the handling of the interrupt
+            </summary>
+            <param name="additionalCycles"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.IHardwareDevice.Query(System.UInt32@,System.UInt32@,System.UInt16@)">
+            <summary>
+            Responds to a hardware device information query.
+            </summary>
+            <param name="manufacturer"></param>
+            <param name="hardwareType"></param>
+            <param name="revision"></param>
+        </member>
+        <member name="T:Devkit.Interfaces.BuildStatus">
+            <summary>
+            Indicates the current status of the build manager
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.BuildStatus.Ready">
+            <summary>
+            Build manage is idle
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.BuildStatus.Building">
+            <summary>
+            Currently building a solution
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.BuildStatus.BuildFailed">
+            <summary>
+            The last build failed
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.BuildStatus.BuildSuccess">
+            <summary>
+            The last build succeeded
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.IWorkspace">
+            <summary>
+            Represents the entire application session
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IWorkspace.BuildManager">
+            <summary>
+            Gets the build manager, which controls and monitors the build process
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IWorkspace.RuntimeManager">
+            <summary>
+            Gets the runtime manager, which controls and monitors the emulated system
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IWorkspace.PluginManager">
+            <summary>
+            Gets the plugin manager, which controls and monitors loaded and unloaded plugins
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IWorkspace.Debugger">
+            <summary>
+            Gets the debugger - performs debug functionality and expression evaluation
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IWorkspace.UiDispatcher">
+            <summary>
+            Gets the dispatcher associated with the UI thread
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.IPluginManager">
+            <summary>
+            Allows for querying/manipulation of loaded plugins
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.IPluginManager.RescanPluginFolder">
+            <summary>
+            Causes a refresh of unloaded plugins
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.IPluginManager.LoadPlugin(System.Guid)">
+            <summary>
+            Loads the plugin matching the Guid specified
+            </summary>
+            <param name="guid"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.IPluginManager.UnloadPlugin(System.Guid)">
+            <summary>
+            Unloads any plugin matching the Guid specified
+            </summary>
+            <param name="guid"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.IPluginManager.GetLoadedPlugin(System.Guid)">
+            <summary>
+            Gets the loaded plugin with the specified guid, or null if the given plugin is not loaded
+            </summary>
+            <param name="guid"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Devkit.Interfaces.IPluginManager.LoadedPlugins">
+            <summary>
+            Gets the list of currently-loaded plugins
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IPluginManager.UnloadedPlugins">
+            <summary>
+            Gets the list of unloaded (but available) plugins
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IPluginManager.PluginFolder">
+            <summary>
+            Gets the plugin folder
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.CpuStatus">
+            <summary>
+            Indicates the status of the CPU state machine
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.CpuStatus.Normal">
+            <summary>
+            Executing a regular instruction
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.CpuStatus.SingleExtraReadCycle">
+            <summary>
+            Executing a single additional read cycle
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.CpuStatus.FirstExtraReadCycle">
+            <summary>
+            Executing the first of two additional read cycles
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.CpuStatus.FinalExtraReadCycle">
+            <summary>
+            Executing the second of two additional read cycles
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.CpuStatus.ExtraProcessingCycle">
+            <summary>
+            Executing an additional instruction-processing cycle
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.CpuStatus.Faulted">
+            <summary>
+            A fault has occurred
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.ICpu">
+            <summary>
+            Allows querying and manipulation of CPU state
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.ICpu.EmulationFault(Devkit.Interfaces.EmulationFault)">
+            <summary>
+            Flags an emulation fault
+            </summary>
+            <param name="fault"></param>
+        </member>
+        <member name="P:Devkit.Interfaces.ICpu.SkipFlag">
+            <summary>
+            Gets or sets the value of the skip flag
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.ICpu.PC">
+            <summary>
+            Gets or sets the value of the program counter
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.ICpu.SP">
+            <summary>
+            Gets or set the value of the stack pointer
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.ICpu.IA">
+            <summary>
+            Gets or sets the value of the interrupt address
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.ICpu.Extra">
+            <summary>
+            Gets or sets the value of the Extra register
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.ICpu.Registers">
+            <summary>
+            Gets or sets the array of general-purpose register values
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.PluginInfo">
+            <summary>
+            Holds information about a plugin available to the system
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.PluginInfo.Filename">
+            <summary>
+            Gets/sets the filename of the primary plugin assembly
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.PluginInfo.ClassName">
+            <summary>
+            Gets/sets the class within the filename of the primary plugin assembly
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.PluginInfo.Guid">
+            <summary>
+            Gets/sets the Guid of a plugin (will not change with different versions)
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.PluginInfo.Name">
+            <summary>
+            Gets/sets the name of the plugin
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.PluginInfo.Description">
+            <summary>
+            Gets/sets the description of the plugin
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.PluginInfo.Author">
+            <summary>
+            Gets/sets the author of the plugin
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.PluginInfo.Version">
+            <summary>
+            Gets/sets the version of the plugin
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.PluginInfo.Url">
+            <summary>
+            Gets/sets the URL of the plugin
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.IMemoryController">
+            <summary>
+            Represents the emulated system memory controller
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.IMemoryController.RegisterMemoryDevice(Devkit.Interfaces.MemoryDevice)">
+            <summary>
+            Registers a new memory device to handle IO requests
+            </summary>
+            <param name="device"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.IMemoryController.UnregisterMemoryDevice(Devkit.Interfaces.MemoryDevice)">
+            <summary>
+            Unregisters an already-registered memory device
+            </summary>
+            <param name="device"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.IMemoryController.Read(System.UInt16)">
+            <summary>
+            Reads a single word from the requested address.
+            Passes the request onto the configured memory device
+            for the address.
+            </summary>
+            <param name="address"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.IMemoryController.Write(System.UInt16,System.UInt16)">
+            <summary>
+            Writes a single word to the requested address.
+            Passes the request onto the configured memory device
+            for the address.
+            </summary>
+            <param name="address"></param>
+            <param name="data"></param>
+        </member>
+        <member name="T:Devkit.Interfaces.IDebugInfo">
+            <summary>
+            Allows for retrieval and manipulation of debug information
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.IDebugInfo.AddSourceInfo(System.Int64,System.Collections.Generic.IEnumerable{Devkit.Interfaces.SourceReference},Devkit.Interfaces.MemoryRangeType)">
+            <summary>
+            Adds additional source referencing information for the given memory location
+            </summary>
+            <param name="location"></param>
+            <param name="info"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.IDebugInfo.GetSourceInfo(System.Int64,Devkit.Interfaces.MemoryRangeType@)">
+            <summary>
+            Retrieves all source referencing information for the given memory location
+            </summary>
+            <param name="location"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.IDebugInfo.GetOffsets(System.String,System.Int32)">
+            <summary>
+            Gets all memory offsets associated with the given source file/line number
+            </summary>
+            <param name="path"></param>
+            <param name="lineNumber"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.IDebugInfo.GetDebugInfoOffsets">
+            <summary>
+            Gets all memory locations with any associated debug information
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.IDebugInfo.RemoveDebugInformation(System.UInt16)">
+            <summary>
+            Removes all debug information associated with the given address
+            </summary>
+            <param name="address"></param>
+        </member>
+        <member name="T:Devkit.Interfaces.MemoryRangeType">
+            <summary>
+            Indicates the type of content of a memory location
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.MemoryRangeType.Unknown">
+            <summary>
+            Content type unknown
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.MemoryRangeType.Code">
+            <summary>
+            The memory location/range contains code
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.MemoryRangeType.Data">
+            <summary>
+            The memory location/range contains data
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.ICpuState">
+            <summary>
+            Used to retrieve information about the state of an emulated CPU
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.ICpuState.Status">
+            <summary>
+            Retrieves the CPU status flag
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.ICpuState.Fault">
+            <summary>
+            Retrieves the last emulation fault (relevant if Status is set to Faulted)
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.ICpuState.SkipFlag">
+            <summary>
+            Retrieves the status of the skip flag
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.ICpuState.PC">
+            <summary>
+            Retrieves the value of the program counter register
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.ICpuState.SP">
+            <summary>
+            Retrieves the value of the stack pointer register
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.ICpuState.IA">
+            <summary>
+            Retrieves the value of the interrupt address register
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.ICpuState.Extra">
+            <summary>
+            Retrieves the value of the extra register
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.ICpuState.Registers">
+            <summary>
+            Gets an array containing general-purpose register values
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.IHardwareController">
+            <summary>
+            Represents the controller for hardware attached to an emulated system
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.IHardwareController.RegisterHardwareDevice(Devkit.Interfaces.IHardwareDevice)">
+            <summary>
+            Registers a new device to handle hardware interrupts, queries
+            </summary>
+            <param name="device"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.IHardwareController.UnregisterHardwareDevice(Devkit.Interfaces.IHardwareDevice)">
+            <summary>
+            Unregisters an already-registered hardware device
+            </summary>
+            <param name="device"></param>
+        </member>
+        <member name="P:Devkit.Interfaces.IHardwareController.NumDevices">
+            <summary>
+            Retrieves the number of hardware devices associated with the system
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.IEmulatedSystem">
+            <summary>
+            Represents an emulated system and its components
+            </summary>
+        </member>
+        <member name="E:Devkit.Interfaces.IEmulatedSystem.SystemReset">
+            <summary>
+            Fired when the system is reset completely
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IEmulatedSystem.Cpu">
+            <summary>
+            Retrieves the CPU interface for the system
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IEmulatedSystem.MemoryController">
+            <summary>
+            Retrieves the memory controller for the system
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IEmulatedSystem.HardwareController">
+            <summary>
+            Retrieves the hardware controller for the system
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.Delegates">
+            <summary>
+            Delegates for DevKit integration
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.Delegates.SystemResetHandler">
+            <summary>
+            Handler for when the emulated system is reset
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.Delegates.ExecutionBreakHandler">
+            <summary>
+            Handler for when execution is stopped - stoppedCompletely is true to indicate
+            execution is stopped completely (false indicates a Break condition)
+            </summary>
+            <param name="stoppedCompletely"></param>
+        </member>
+        <member name="T:Devkit.Interfaces.Delegates.ExecutionStartedHandler">
+            <summary>
+            Handler for when execution begins or resumes
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.Delegates.DebugInfoChangedHandler">
+            <summary>
+            Handler for when debug information is updated
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.Delegates.BuildStatusChangedHandler">
+            <summary>
+            Handler for when the build status changes
+            </summary>
+            <param name="status"></param>
+        </member>
+    </members>
+</doc>
