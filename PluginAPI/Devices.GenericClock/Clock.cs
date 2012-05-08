@@ -66,6 +66,10 @@ namespace Devices.GenericClock
             }
         }
 
+        public void CycleTimerCompleted(object state)
+        {
+        }
+
         public void Pulse()
         {
             // detect 'turned off' condition

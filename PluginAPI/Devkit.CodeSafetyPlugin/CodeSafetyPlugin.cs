@@ -6,6 +6,7 @@ using System.Windows;
 using Devkit.CodeSafetyPlugin.View;
 using Devkit.CodeSafetyPlugin.ViewModel;
 using Devkit.Interfaces;
+using Devkit.Interfaces.Build;
 
 namespace Devkit.CodeSafetyPlugin
 {
@@ -38,7 +39,7 @@ namespace Devkit.CodeSafetyPlugin
 
         public string Version
         {
-            get { return "1.0.0"; }
+            get { return "1.7.3"; }
         }
 
         public string Url

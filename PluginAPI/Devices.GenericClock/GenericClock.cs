@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Devices.GenericClock.Resources;
 using Devkit.Interfaces;
 
 namespace Devices.GenericClock
 {
     public class GenericClock : IPlugin
     {
+        private IWorkspace _workspace;
         private Clock _clock;
 
         public Guid Guid
@@ -32,7 +34,7 @@ namespace Devices.GenericClock
 
         public string Version
         {
-            get { return "1.0.0"; }
+            get { return "1.7.3"; }
         }
 
         public string Url
@@ -42,15 +44,27 @@ namespace Devices.GenericClock
 
         public IEnumerable<string> ActionNames
         {
-            get { yield break; }
+            get
+            {
+                yield return "Show documentation";
+            }
         }
 
         public void Action(string name)
         {
+            switch (name)
+            {
+                case "Show documentation":
+                    this._workspace.ShowDocumentationWindow(
+                        "Generic Clock Documentation",
+                        ResourceHelper.GetContent("Devices.GenericClock.Resources.GenericClock.txt"));
+                    break;
+            }
         }
 
         public void Load(IWorkspace workspace)
         {
+            this._workspace = workspace;
             this._clock = new Clock();
             workspace.RuntimeManager.System.HardwareController.RegisterHardwareDevice(this._clock);
         }

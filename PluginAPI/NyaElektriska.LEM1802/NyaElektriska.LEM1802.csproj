@@ -70,7 +70,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Resources\Images.cs" />
+    <Compile Include="Resources\ResourceHelper.cs" />
+    <Compile Include="ViewModel\Settings.cs" />
+    <Compile Include="View\SettingsEditor.xaml.cs">
+      <DependentUpon>SettingsEditor.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -87,10 +91,18 @@
       <Name>Devkit.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\LEM1802.txt" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Images\boot.png" />
     <EmbeddedResource Include="Resources\Images\font.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="View\SettingsEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

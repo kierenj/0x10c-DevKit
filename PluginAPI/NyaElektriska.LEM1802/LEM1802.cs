@@ -9,12 +9,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Devkit.Interfaces;
 using NyaElektriska.LEM1802.Properties;
+using NyaElektriska.LEM1802.Resources;
+using NyaElektriska.LEM1802.View;
+using NyaElektriska.LEM1802.ViewModel;
+using Settings = NyaElektriska.LEM1802.ViewModel.Settings;
 
 namespace NyaElektriska.LEM1802
 {
     public class LEM1802 : IPlugin
     {
-        private GPU _gpu;
+        private readonly List<GPU> _gpus;
+        private ViewModel.Settings _settings;
+        private IWorkspace _workspace;
 
         public Guid Guid
         {
@@ -38,7 +44,7 @@ namespace NyaElektriska.LEM1802
 
         public string Version
         {
-            get { return "1.0.0"; }
+            get { return "1.7.3"; }
         }
 
         public string Url
@@ -48,23 +54,68 @@ namespace NyaElektriska.LEM1802
 
         public IEnumerable<string> ActionNames
         {
-            get { yield break; }
+            get
+            {
+                yield return "Configure settings";
+                yield return "Show documentation";
+            }
         }
 
         public void Action(string name)
         {
+            switch (name)
+            {
+                case "Configure settings":
+                    new SettingsEditor { DataContext = this._settings }.ShowDialog();
+                    break;
+
+                case "Show documentation":
+                    this._workspace.ShowDocumentationWindow(
+                        "LEM1802 Documentation",
+                        ResourceHelper.GetContent("NyaElektriska.LEM1802.Resources.LEM1802.txt"));
+                    break;
+            }
+        }
+
+        public LEM1802()
+        {
+            this._gpus = new List<GPU>();
         }
 
         public void Load(IWorkspace workspace)
         {
-            this._gpu = new GPU(workspace);
-            workspace.RuntimeManager.System.HardwareController.RegisterHardwareDevice(this._gpu);
+            this._workspace = workspace;
+            this._settings = new Settings(this._workspace.SettingsManager, this);
+
+            NotifyNumDevicesChanged(this._settings.NumDevices);
         }
 
         public void Unload(IWorkspace workspace)
         {
-            this._gpu.Unload();
-            workspace.RuntimeManager.System.HardwareController.UnregisterHardwareDevice(this._gpu);
+            foreach (var gpu in this._gpus)
+            {
+                gpu.Unload();
+                workspace.RuntimeManager.System.HardwareController.UnregisterHardwareDevice(gpu);
+            }
+            this._gpus.Clear();
+        }
+
+        public void NotifyNumDevicesChanged(int numDevices)
+        {
+            while (this._gpus.Count > numDevices)
+            {
+                var removeGpu = this._gpus.Last();
+                removeGpu.Unload();
+                this._workspace.RuntimeManager.System.HardwareController.UnregisterHardwareDevice(removeGpu);
+                this._gpus.Remove(removeGpu);
+            }
+            while (this._gpus.Count < numDevices)
+            {
+                var gpu = new GPU(this._workspace);
+                this._workspace.RuntimeManager.System.HardwareController.RegisterHardwareDevice(gpu);
+
+                this._gpus.Add(gpu);
+            }
         }
     }
 }

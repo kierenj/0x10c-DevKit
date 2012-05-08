@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Devices.GenericKeyboard.Resources;
 using Devkit.Interfaces;
 
 namespace Devices.GenericKeyboard
 {
     public class GenericKeyboard : IPlugin
     {
+        private IWorkspace _workspace;
         private Keyboard _keyboard;
 
         public Guid Guid
@@ -30,7 +32,7 @@ namespace Devices.GenericKeyboard
 
         public string Version
         {
-            get { return "1.0.0"; }
+            get { return "1.7.3"; }
         }
 
         public string Url
@@ -40,15 +42,27 @@ namespace Devices.GenericKeyboard
 
         public IEnumerable<string> ActionNames
         {
-            get { yield break; }
+            get
+            {
+                yield return "Show documentation";
+            }
         }
 
         public void Action(string name)
         {
+            switch (name)
+            {
+                case "Show documentation":
+                    this._workspace.ShowDocumentationWindow(
+                        "Generic Clock Documentation",
+                        ResourceHelper.GetContent("Devices.GenericKeyboard.Resources.GenericKeyboard.txt"));
+                    break;
+            }
         }
 
         public void Load(IWorkspace workspace)
         {
+            this._workspace = workspace;
             this._keyboard = new Keyboard(workspace);
             workspace.RuntimeManager.System.HardwareController.RegisterHardwareDevice(this._keyboard);
         }

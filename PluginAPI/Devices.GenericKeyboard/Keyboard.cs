@@ -106,6 +106,10 @@ namespace Devices.GenericKeyboard
             this._interruptNum = 0;
         }
 
+        public void CycleTimerCompleted(object state)
+        {
+        }
+
         public void Pulse()
         {
         }

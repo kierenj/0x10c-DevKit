@@ -103,6 +103,10 @@ namespace NyaElektriska.LEM1802
             }
         }
 
+        public void CycleTimerCompleted(object state)
+        {
+        }
+
         public void Pulse()
         {
         }
@@ -120,12 +124,12 @@ namespace NyaElektriska.LEM1802
 
             // load default data
             this._lastBorderColourIndex = -1;
-            this._bootScreen = Resources.Images.Boot;
-            this._fontData = LoadFontFromImage(Resources.Images.Font);
+            this._bootScreen = Resources.ResourceHelper.Boot;
+            this._fontData = LoadFontFromImage(Resources.ResourceHelper.Font);
             this._paletteData = CreateDefaultPalette().ToArray();
 
             // hook up rendering stuff
-            this._workspace.RuntimeManager.UI.SetDisplayContentProvider(this);
+            this._workspace.RuntimeManager.UI.AddDisplayContentProvider(this);
             this._writeableBitmap = new WriteableBitmap(128, 96, 96, 96, PixelFormats.Bgr32, null);
             CompositionTarget.Rendering += RenderCallback;
         }
@@ -133,7 +137,7 @@ namespace NyaElektriska.LEM1802
         public void Unload()
         {
             CompositionTarget.Rendering -= RenderCallback;
-            this._workspace.RuntimeManager.UI.SetDisplayContentProvider(null);
+            this._workspace.RuntimeManager.UI.RemoveDisplayContentProvider(this);
         }
 
         private void RenderCallback(object sender, EventArgs e)
@@ -150,7 +154,7 @@ namespace NyaElektriska.LEM1802
             this._borderColourIndex = 0;
         }
 
-        public Visual CreateVisual()
+        public UIElement CreateUIElement()
         {
             // create any resources that might be needed during render
             this._flashTimer = new Stopwatch();
@@ -227,7 +231,7 @@ namespace NyaElektriska.LEM1802
                         int charDataOffset = (int)chr * 2;
 
                         int colour = fullColours[colours & 0xf];
-                        int colourAdd = fullColours[(colours >> 4) & 0xf];
+                        int colourAdd = fullColours[(colours >> 4) & 0xf] - colour;
                         if (!flashOn && ((locData & 0x80) > 0)) colourAdd = 0;
 
                         int pixelOffs = x * 4 + y * 8 * stride;
