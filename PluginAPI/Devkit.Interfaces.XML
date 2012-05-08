@@ -63,6 +63,53 @@
             will appear on a menu in the host application
             </summary>
         </member>
+        <member name="T:Devkit.Interfaces.Build.CompilationPass">
+            <summary>
+            Represents one of the internal DevKit compilation stages
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.Build.CompilationPass.Pass1RegisterIdentifiers">
+            <summary>
+            The pass where identifiers are entered into the code model
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.Build.CompilationPass.Pass2ExpandMacros">
+            <summary>
+            The pass where any macro references are expanded
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.Build.CompilationPass.Pass3GenerateCode">
+            <summary>
+            The pass where code and data instructions are generated
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.Build.CompilationPass.Pass4FillInOffsets">
+            <summary>
+            The pass where any instruction/data offsets are resolved
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.Build.CodeEditorStrategy">
+            <summary>
+            Provides a strategy for using DevKit's built-in code editor, with
+            custom highlighting rules.
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.Build.IEditorControlStrategy">
+            <summary>
+            Base interface for editor control-creation strategies
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.CodeEditorStrategy.#ctor">
+            <summary>
+            Creates a new instance of the code-editor strategy
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.CodeEditorStrategy.HighlightingRules">
+            <summary>
+            Gets the list of highlighting rules for the strategy.  Add new rules
+            with the Add method.
+            </summary>
+        </member>
         <member name="T:Devkit.Interfaces.MemoryDeviceType">
             <summary>
             Indicates the type of hooks/overrides a memory device implements
@@ -101,6 +148,38 @@
             </summary>
             <param name="source"></param>
             <param name="val"></param>
+        </member>
+        <member name="T:Devkit.Interfaces.Build.ICompilerScopeObjectData">
+            <summary>
+            Interface for marking objects which are the target data
+            associated with ICompilerScopeObject objects.
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.Build.CompileToolContext">
+            <summary>
+            Holds the current state of compilation
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.CompileToolContext.#ctor">
+            <summary>
+            Creates a new compilation context
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.CompileToolContext.AddMessage(Devkit.Interfaces.Build.ICompileMessage)">
+            <summary>
+            Records a new compilation message
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.CompileToolContext.Messages">
+            <summary>
+            Gets the current list of compilation messages
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.CompileToolContext.HasErrors">
+            <summary>
+            Indicates whether there are any error messages in the context
+            </summary>
         </member>
         <member name="T:Devkit.Interfaces.MemoryDevice">
             <summary>
@@ -235,19 +314,65 @@
             Retrieves the user interface for the emulated system
             </summary>
         </member>
-        <member name="T:Devkit.Interfaces.IBuildManager">
+        <member name="T:Devkit.Interfaces.Build.IFile">
             <summary>
-            Controls and monitors the build process
+            Represents a file in a project
             </summary>
         </member>
-        <member name="P:Devkit.Interfaces.IBuildManager.Status">
+        <member name="M:Devkit.Interfaces.Build.IFile.GetPropertyNames">
             <summary>
-            Gets a flag indicating the status of the build manager
+            Gets a list of the names of properties associated with the file
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IFile.GetProperty(System.String)">
+            <summary>
+            Gets the value of a specific property associated with the file (or
+            null if the property does not exist)
+            </summary>
+            <param name="propertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IFile.SetProperty(System.String,System.String)">
+            <summary>
+            Sets the value of a specific property associated with the file
+            </summary>
+            <param name="propertyName"></param>
+            <param name="propertyValue"></param>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.IFile.Path">
+            <summary>
+            Gets the path to the file relative to the project file
             </summary>
         </member>
-        <member name="E:Devkit.Interfaces.IBuildManager.BuildStatusChanged">
+        <member name="P:Devkit.Interfaces.Build.IFile.AbsolutePath">
             <summary>
-            Fired when the current build status changes
+            Gets the absolute path to the file
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.Build.BuildStatus">
+            <summary>
+            Indicates the current status of the build manager
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.Build.BuildStatus.Ready">
+            <summary>
+            Build manage is idle
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.Build.BuildStatus.Building">
+            <summary>
+            Currently building a solution
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.Build.BuildStatus.BuildFailed">
+            <summary>
+            The last build failed
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.Build.BuildStatus.BuildSuccess">
+            <summary>
+            The last build succeeded
             </summary>
         </member>
         <member name="T:Devkit.Interfaces.IDebugger">
@@ -279,6 +404,94 @@
             <summary>
             The CPU attempted to execute an invalid or advanced opcodse
             </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.Build.LabelInstruction">
+            <summary>
+            Represents a label instruction - a named marker in the compiled output
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.Build.Instruction">
+            <summary>
+            Base class for instructions (compiler output)
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.Instruction.GetWords(Devkit.Interfaces.Build.CompileToolContext)">
+            <summary>
+            Gets an array of compiled output words for the instruction
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.Instruction.#ctor(System.Collections.Generic.IEnumerable{Devkit.Interfaces.SourceReference})">
+            <summary>
+            Creates a new instance of an instruction with the specified list
+            of source references
+            </summary>
+            <param name="sourceRefs"></param>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.Instruction.Offset">
+            <summary>
+            Gets or sets the final compiled offset for the instruction
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.Instruction.RangeType">
+            <summary>
+            Gets the type of memory range for this instruction
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.Instruction.SourceRefs">
+            <summary>
+            Gets the list of source references for the instruction
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.Instruction.Size">
+            <summary>
+            Gets the number of compiled output words for the instruction
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.LabelInstruction.#ctor(System.Collections.Generic.IEnumerable{Devkit.Interfaces.SourceReference})">
+            <summary>
+            Creates a new label instruction
+            </summary>
+            <param name="sourceRefs"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.LabelInstruction.GetWords(Devkit.Interfaces.Build.CompileToolContext)">
+            <summary>
+            Gets the list of compiled-output words for the instruction.  Always returns an empty array.
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.LabelInstruction.RangeType">
+            <summary>
+            Gets the type of memory range associated with the label.  Always gives type 'Unknown'.
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.LabelInstruction.Size">
+            <summary>
+            Returns the size of the instruction in words.  Always returns 0.
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.ISettingsManager">
+            <summary>
+            Provides methods to read/write setting data
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.ISettingsManager.ReadSetting(System.String,System.String)">
+            <summary>
+            Reads the current value of a given setting
+            </summary>
+            <param name="category"></param>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.ISettingsManager.WriteSetting(System.String,System.String,System.String)">
+            <summary>
+            Writes a new value for a given setting
+            </summary>
+            <param name="category"></param>
+            <param name="name"></param>
+            <param name="value"></param>
         </member>
         <member name="T:Devkit.Interfaces.IHardwareDevice">
             <summary>
@@ -317,35 +530,34 @@
             Called at a rate of 60Hz from the host system
             </summary>
         </member>
-        <member name="T:Devkit.Interfaces.BuildStatus">
+        <member name="M:Devkit.Interfaces.IHardwareDevice.CycleTimerCompleted(System.Object)">
             <summary>
-            Indicates the current status of the build manager
+            Called by the runtime manager when a requested cycle timer has
+            been completed/elapsed
             </summary>
-        </member>
-        <member name="F:Devkit.Interfaces.BuildStatus.Ready">
-            <summary>
-            Build manage is idle
-            </summary>
-        </member>
-        <member name="F:Devkit.Interfaces.BuildStatus.Building">
-            <summary>
-            Currently building a solution
-            </summary>
-        </member>
-        <member name="F:Devkit.Interfaces.BuildStatus.BuildFailed">
-            <summary>
-            The last build failed
-            </summary>
-        </member>
-        <member name="F:Devkit.Interfaces.BuildStatus.BuildSuccess">
-            <summary>
-            The last build succeeded
-            </summary>
+            <param name="state"></param>
         </member>
         <member name="T:Devkit.Interfaces.IWorkspace">
             <summary>
             Represents the entire application session
             </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.IWorkspace.ShowDocumentationWindow(System.String,System.String)">
+            <summary>
+            Shows a new documentation window with the given content
+            </summary>
+            <param name="title"></param>
+            <param name="data"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.IWorkspace.FileDialog(System.String,System.String,System.Boolean)">
+            <summary>
+            Gets a filename to save/load a file from the user
+            </summary>
+            <param name="title"></param>
+            <param name="filetypeFilter"></param>
+            <param name="defaultExtension"> </param>
+            <param name="saveDialog"></param>
+            <returns></returns>
         </member>
         <member name="P:Devkit.Interfaces.IWorkspace.BuildManager">
             <summary>
@@ -362,6 +574,11 @@
             Gets the plugin manager, which controls and monitors loaded and unloaded plugins
             </summary>
         </member>
+        <member name="P:Devkit.Interfaces.IWorkspace.SettingsManager">
+            <summary>
+            Gets the settings manager, allows for read/write of setting data
+            </summary>
+        </member>
         <member name="P:Devkit.Interfaces.IWorkspace.Debugger">
             <summary>
             Gets the debugger - performs debug functionality and expression evaluation
@@ -371,6 +588,57 @@
             <summary>
             Gets the dispatcher associated with the UI thread
             </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.Build.ISourceFileScope">
+            <summary>
+            Represents the scope of a single source file
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.Build.IIdentifierScope">
+            <summary>
+            Base interface for any nodes which represent an identifier scope (which can be used to
+            resolve or register identifiers)
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.Build.INode">
+            <summary>
+            Base interface for all nodes in the code model
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.INode.GetChildren">
+            <summary>
+            Gets the list of child nodes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.INode.Compile(Devkit.Interfaces.Build.CompilationPass,Devkit.Interfaces.Build.ICompiler,Devkit.Interfaces.Build.CompileToolContext)">
+            <summary>
+            Requests compilation of the node
+            </summary>
+            <param name="pass"></param>
+            <param name="compiler"></param>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.INode.Parent">
+            <summary>
+            Gets/sets the parent of this node
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IIdentifierScope.Find(System.String,Devkit.Interfaces.Build.IIdentifierScope@)">
+            <summary>
+            Finds the object associated with the given name, also providing the scope
+            in which the object was found
+            </summary>
+            <param name="name"></param>
+            <param name="scope"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IIdentifierScope.Add(Devkit.Interfaces.Build.ICompilerScopeObject)">
+            <summary>
+            Registers the specified object within the scope
+            </summary>
+            <param name="obj"></param>
         </member>
         <member name="T:Devkit.Interfaces.IPluginManager">
             <summary>
@@ -416,12 +684,17 @@
             Gets the plugin folder
             </summary>
         </member>
+        <member name="T:Devkit.Interfaces.Build.IProjectScope">
+            <summary>
+            Represents the scope of an entire project in the solution
+            </summary>
+        </member>
         <member name="T:Devkit.Interfaces.IDisplayContentProvider">
             <summary>
             Implemented by objects wishing to provide content for the DevKit system UI display
             </summary>
         </member>
-        <member name="M:Devkit.Interfaces.IDisplayContentProvider.CreateVisual">
+        <member name="M:Devkit.Interfaces.IDisplayContentProvider.CreateUIElement">
             <summary>
             Create a visual to be used in the Display window for the DevKit system UI
             </summary>
@@ -477,13 +750,19 @@
             Provides a means to query and manipulate the UI associated with an emulated system
             </summary>
         </member>
-        <member name="M:Devkit.Interfaces.ISystemUI.SetDisplayContentProvider(Devkit.Interfaces.IDisplayContentProvider)">
+        <member name="M:Devkit.Interfaces.ISystemUI.AddDisplayContentProvider(Devkit.Interfaces.IDisplayContentProvider)">
             <summary>
-            Sets the object that will be used by DevKit to produce content for the screen
+            Adds an object that will be used by DevKit to produce content for the screen
             </summary>
             <param name="provider"></param>
         </member>
-        <member name="M:Devkit.Interfaces.ISystemUI.GetDisplayContentProvider">
+        <member name="M:Devkit.Interfaces.ISystemUI.RemoveDisplayContentProvider(Devkit.Interfaces.IDisplayContentProvider)">
+            <summary>
+            Removes anexisting object that is used by DevKit to produce content for the screen
+            </summary>
+            <param name="provider"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.ISystemUI.GetDisplayContentProviders">
             <summary>
             Gets the object that will be used by DevKit to produce content for the screen
             </summary>
@@ -521,6 +800,11 @@
             Gets or sets the value of the 'on fire' flag
             </summary>
         </member>
+        <member name="P:Devkit.Interfaces.ICpu.QueueInterrupts">
+            <summary>
+            Gets or sets the value of the 'queue interrupts' flag
+            </summary>
+        </member>
         <member name="P:Devkit.Interfaces.ICpu.SkipFlag">
             <summary>
             Gets or sets the value of the skip flag
@@ -549,6 +833,42 @@
         <member name="P:Devkit.Interfaces.ICpu.Registers">
             <summary>
             Gets or sets the array of general-purpose register values
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.Build.ICompiler">
+            <summary>
+            Interface of the coordinating compiler
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.ICompiler.AddInstruction(Devkit.Interfaces.Build.Instruction)">
+            <summary>
+            Adds an instruction to the compiler output
+            </summary>
+            <param name="node"></param>
+        </member>
+        <member name="T:Devkit.Interfaces.Build.ICompileMessage">
+            <summary>
+            Defines a contract for compilation messages
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.ICompileMessage.MessageLevel">
+            <summary>
+            Gets the severity level of the message
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.ICompileMessage.Message">
+            <summary>
+            Gets a readable version of message content
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.ICompileMessage.Filename">
+            <summary>
+            Gets the full path to the file to which the message relates
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.ICompileMessage.Line">
+            <summary>
+            Gets the line number the message relates to
             </summary>
         </member>
         <member name="T:Devkit.Interfaces.PluginInfo">
@@ -596,6 +916,60 @@
             Gets/sets the URL of the plugin
             </summary>
         </member>
+        <member name="T:Devkit.Interfaces.Build.IBuildManager">
+            <summary>
+            Controls and monitors the build process
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IBuildManager.RegisterFileTypeProvider(Devkit.Interfaces.Build.IFileTypeProvider)">
+            <summary>
+            Registers a new file build provider in the system
+            </summary>
+            <param name="provider"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IBuildManager.UnregisterFileTypeProvider(Devkit.Interfaces.Build.IFileTypeProvider)">
+            <summary>
+            Unregisters an alter-registered file build provider from the system
+            </summary>
+            <param name="provider"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IBuildManager.GetFileBuildProvider(System.String)">
+            <summary>
+            Gets the build provider for the specified file extension
+            </summary>
+            <param name="extension"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.IBuildManager.Status">
+            <summary>
+            Gets a flag indicating the status of the build manager
+            </summary>
+        </member>
+        <member name="E:Devkit.Interfaces.Build.IBuildManager.BuildStatusChanged">
+            <summary>
+            Fired when the current build status changes
+            </summary>
+        </member>
+        <member name="E:Devkit.Interfaces.Build.IBuildManager.BuildOutputAvailable">
+            <summary>
+            Fired when build output becomes available
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.Build.Level">
+            <summary>
+            The severity level of a compilation message
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.Build.Level.Warning">
+            <summary>
+            Indicates an informative warning message
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.Build.Level.Error">
+            <summary>
+            Indicates a critical compilation error
+            </summary>
+        </member>
         <member name="T:Devkit.Interfaces.IMemoryController">
             <summary>
             Represents the emulated system memory controller
@@ -630,6 +1004,63 @@
             </summary>
             <param name="address"></param>
             <param name="data"></param>
+        </member>
+        <member name="T:Devkit.Interfaces.Build.ICompilerScopeObject">
+            <summary>
+            Represents an object in the code graph that the
+            user can refer to by name (by an identifier)
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.ICompilerScopeObject.Name">
+            <summary>
+            Gets the name of the object
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.ICompilerScopeObject.Data">
+            <summary>
+            Gets the target code model object associated with the object
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.Build.IFileTypeProvider">
+            <summary>
+            Implemented by service objects which can create compiled data from a source file
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IFileTypeProvider.GetDefaultFileContent(Devkit.Interfaces.IOpenFile)">
+            <summary>
+            Gets the default textual content of a new file
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IFileTypeProvider.CreateFileScope(Devkit.Interfaces.Build.IFile,Devkit.Interfaces.Build.IProjectScope,Devkit.Interfaces.Build.CompileToolContext)">
+            <summary>
+            The first part of the compilation process: returns a new scope to encapsulate the file
+            </summary>
+            <param name="file"></param>
+            <param name="projectScope"></param>
+            <param name="context"> </param>
+            <returns></returns>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.IFileTypeProvider.FileTypeName">
+            <summary>
+            Gets a description of the type of files the provider can build
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.IFileTypeProvider.DefaultFileExtensions">
+            <summary>
+            Gets a list of extensions of files to be build with the provider
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.IFileTypeProvider.CanCreateNew">
+            <summary>
+            Gets a flag indicating whether a new file of this type can be created
+            within the DevKit workspace
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.IFileTypeProvider.EditorControlStrategy">
+            <summary>
+            Gets the strategy to use to create new controls to edit
+            files in the workspace
+            </summary>
         </member>
         <member name="T:Devkit.Interfaces.IDebugInfo">
             <summary>
@@ -671,6 +1102,18 @@
             Removes all debug information associated with the given address
             </summary>
             <param name="address"></param>
+        </member>
+        <member name="T:Devkit.Interfaces.Build.CustomEditorControlStrategy">
+            <summary>
+            Abstract base class for file type providers wishing to create their own custom controls
+            for editing files in the workspace
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.CustomEditorControlStrategy.CreateEditorControl(Devkit.Interfaces.IOpenFile)">
+            <summary>
+            Creates a FrameworkElement to be displayed as the editor for the file
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Devkit.Interfaces.MemoryRangeType">
             <summary>
@@ -727,6 +1170,16 @@
             Retrieves the value of the interrupt address register
             </summary>
         </member>
+        <member name="P:Devkit.Interfaces.ICpuState.IsOnFire">
+            <summary>
+            Indicates whether the CPU is on fire
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.ICpuState.QueueInterrupts">
+            <summary>
+            Indicates whether the CPU will currently queue interrupts
+            </summary>
+        </member>
         <member name="P:Devkit.Interfaces.ICpuState.Extra">
             <summary>
             Retrieves the value of the extra register
@@ -735,6 +1188,57 @@
         <member name="P:Devkit.Interfaces.ICpuState.Registers">
             <summary>
             Gets an array containing general-purpose register values
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.IOpenFile">
+            <summary>
+            Represents a file which is open in the workspace
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.IOpenFile.Save">
+            <summary>
+            Causes the textual contents of the file to be saved to disk
+            </summary>
+        </member>
+        <member name="E:Devkit.Interfaces.IOpenFile.ScrollRequested">
+            <summary>
+            Fired when the UI for the open file must scroll to display a specific ilne
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IOpenFile.File">
+            <summary>
+            Gets the underlying file object (represents the file in the project)
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IOpenFile.AbsolutePath">
+            <summary>
+            Gets the absolute path of the file
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IOpenFile.IsCurrentFile">
+            <summary>
+            Indicates whether the file is the currently-selected file
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IOpenFile.IsOpen">
+            <summary>
+            Gets or sets a flag controlling whether the file is open and remains open
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IOpenFile.DisplayTitle">
+            <summary>
+            Gets the display title of the file
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IOpenFile.IsDirty">
+            <summary>
+            Gets or sets the dirty flag (indicating whether the file has unsaved changes or not).
+            May be set by editors which manually save non-textual content of a file.
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IOpenFile.Content">
+            <summary>
+            Gets or sets the textual content of the file
             </summary>
         </member>
         <member name="T:Devkit.Interfaces.IHardwareController">
@@ -763,6 +1267,30 @@
             <summary>
             Represents an emulated system and its components
             </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.IEmulatedSystem.BlockExecution(System.Boolean)">
+            <summary>
+            Causes instruction execution to be blocked (or unblocked)
+            </summary>
+            <param name="block"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.IEmulatedSystem.StartCycleTimer(System.Int64,Devkit.Interfaces.IHardwareDevice,System.Object)">
+            <summary>
+            Causes emulation to be delayed by the given number of cycles, before notifying
+            the hardware device specified (via the CycleDelayCompleted method)
+            </summary>
+            <param name="cycles"></param>
+            <param name="device"></param>
+            <param name="state"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.IEmulatedSystem.StartTimer(System.Double,Devkit.Interfaces.IHardwareDevice,System.Object)">
+            <summary>
+            Causes emulation to be delayed by the given number of seconds, before notifying
+            the hardware device specified (via the CycleDelayCompleted method).  Cycle-accurate.
+            </summary>
+            <param name="cycles"></param>
+            <param name="device"></param>
+            <param name="state"></param>
         </member>
         <member name="E:Devkit.Interfaces.IEmulatedSystem.SystemReset">
             <summary>
@@ -794,6 +1322,12 @@
             Handler for when the emulated system is reset
             </summary>
         </member>
+        <member name="T:Devkit.Interfaces.Delegates.ScrollRequestedHandler">
+            <summary>
+            Handler for when an open file editor is requested to display a specific line number
+            </summary>
+            <param name="lineNumber"></param>
+        </member>
         <member name="T:Devkit.Interfaces.Delegates.DisplayContentProviderChangedHandler">
             <summary>
             Handles for when the content used in the UI display is changed
@@ -822,6 +1356,12 @@
             Handler for when the build status changes
             </summary>
             <param name="status"></param>
+        </member>
+        <member name="T:Devkit.Interfaces.Delegates.BuildOutputAvailableHandler">
+            <summary>
+            Handler for when the build output is produced
+            </summary>
+            <param name="words"></param>
         </member>
     </members>
 </doc>
