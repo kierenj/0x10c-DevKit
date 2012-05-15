@@ -69,12 +69,12 @@ namespace HaroldInnovationTechnologies.HMD2043
             {
                 var headers = new Dictionary<string, string>();
                 var allData = BinaryImage.ReadImage(this._filename, headers);
-                this._mediaType = (MediaType) Enum.Parse(typeof (MediaType), headers["media-type"]);
-                this._wordsPerSector = int.Parse(headers["words-per-sector"]);
-                this._sectorsPerTrack = int.Parse(headers["sectors-per-track"]);
-                this._numTracks = int.Parse(headers["tracks"]);
-                this._name = headers["disk-name"];
-                this._writeLocked = headers["access"] == "Read-Only";
+                this._mediaType = headers.ContainsKey("media-type") ? (MediaType)Enum.Parse(typeof (MediaType), headers["media-type"]) : MediaType.AuthenticHIT;
+                this._wordsPerSector = headers.ContainsKey("words-per-sector") ? int.Parse(headers["words-per-sector"]) : Disk.DefaultWordsPerSector;
+                this._sectorsPerTrack = headers.ContainsKey("sectors-per-track") ? int.Parse(headers["sectors-per-track"]) : Disk.DefaultSectorsPerTrack;
+                this._numTracks = headers.ContainsKey("tracks") ? int.Parse(headers["tracks"]) : Disk.DefaultNumTracks;
+                this._name = headers.ContainsKey("disk-name") ? headers["disk-name"] : Path.GetFileNameWithoutExtension(this._filename);
+                this._writeLocked = headers.ContainsKey("access") && (headers["access"] == "Read-Only");
 
                 this._data = new ushort[this.NumSectors][];
                 int srcIndex = 0;

@@ -23,9 +23,9 @@ namespace Devkit.BinaryResourcePlugin
             get { return MemoryRangeType.Data; }
         }
 
-        public override long Size
+        public override int Size
         {
-            get { return (new FileInfo(this._filename).Length + 1) / 2; }
+            get { return (int)(new FileInfo(this._filename).Length + 1) / 2; }
         }
 
         public override ushort[] GetWords(CompileToolContext context)

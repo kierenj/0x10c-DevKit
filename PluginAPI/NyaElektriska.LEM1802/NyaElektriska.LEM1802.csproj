@@ -92,9 +92,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\LEM1802.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\Images\boot.png" />
     <EmbeddedResource Include="Resources\Images\font.png" />
   </ItemGroup>

@@ -32,7 +32,7 @@ namespace Devices.GenericKeyboard
 
         public string Version
         {
-            get { return "1.7.3"; }
+            get { return "1.7.4"; }
         }
 
         public string Url
@@ -55,7 +55,7 @@ namespace Devices.GenericKeyboard
                 case "Show documentation":
                     this._workspace.ShowDocumentationWindow(
                         "Generic Clock Documentation",
-                        ResourceHelper.GetContent("Devices.GenericKeyboard.Resources.GenericKeyboard.txt"));
+                        new Uri("http://dcpu.com/highnerd/rc_1/keyboard.txt"));
                     break;
             }
         }

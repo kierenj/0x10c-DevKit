@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("HaroldInnovationTechnologies.HMD2043")]
+[assembly: AssemblyTitle("Devkit.DCPUToolchainPlugin")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Team Chicken")]
-[assembly: AssemblyProduct("HaroldInnovationTechnologies.HMD2043")]
+[assembly: AssemblyProduct("Devkit.DCPUToolchainPlugin")]
 [assembly: AssemblyCopyright("Copyright © Team Chicken 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("282d75ea-f42d-41a0-984e-4e7598597081")]
+[assembly: Guid("a8d0c909-5eaa-46f6-ba08-09fb4bbd3432")]
 
 // Version information for an assembly consists of the following four values:
 //

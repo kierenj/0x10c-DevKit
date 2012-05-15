@@ -36,7 +36,7 @@ namespace Devkit.BinaryResourcePlugin
 
         public string Version
         {
-            get { return "1.7.3"; }
+            get { return "1.7.4"; }
         }
 
         public string Url
@@ -67,6 +67,11 @@ namespace Devkit.BinaryResourcePlugin
         public string FileTypeName
         {
             get { return "Binary Resource file"; }
+        }
+
+        public bool IsTextual
+        {
+            get { return false; }
         }
 
         public IEnumerable<string> DefaultFileExtensions

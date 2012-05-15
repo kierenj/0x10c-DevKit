@@ -23,6 +23,7 @@
 *.log
 *.lib
 *.sbr
+*.pidb
 *.sdf
 ipch/
 obj/

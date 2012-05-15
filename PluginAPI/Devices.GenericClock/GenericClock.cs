@@ -34,7 +34,7 @@ namespace Devices.GenericClock
 
         public string Version
         {
-            get { return "1.7.3"; }
+            get { return "1.7.4"; }
         }
 
         public string Url
@@ -57,7 +57,7 @@ namespace Devices.GenericClock
                 case "Show documentation":
                     this._workspace.ShowDocumentationWindow(
                         "Generic Clock Documentation",
-                        ResourceHelper.GetContent("Devices.GenericClock.Resources.GenericClock.txt"));
+                        new Uri("http://dcpu.com/highnerd/rc_1/clock.txt"));
                     break;
             }
         }

@@ -44,7 +44,7 @@ namespace NyaElektriska.LEM1802
 
         public string Version
         {
-            get { return "1.7.3"; }
+            get { return "1.7.4"; }
         }
 
         public string Url
@@ -72,7 +72,7 @@ namespace NyaElektriska.LEM1802
                 case "Show documentation":
                     this._workspace.ShowDocumentationWindow(
                         "LEM1802 Documentation",
-                        ResourceHelper.GetContent("NyaElektriska.LEM1802.Resources.LEM1802.txt"));
+                        new Uri("http://dcpu.com/highnerd/rc_1/lem1802.txt"));
                     break;
             }
         }

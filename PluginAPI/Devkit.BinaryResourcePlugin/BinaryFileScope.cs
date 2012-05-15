@@ -45,7 +45,7 @@ namespace Devkit.BinaryResourcePlugin
                         return false;
                     }
                     this._labelInstruction = new LabelInstruction(sourceRefs);
-                    project.Add(new BinaryFileLabel(this._labelIdentifier, this._labelInstruction));
+                    project.Add(new BinaryFileLabel(this._labelIdentifier, this._labelInstruction, this._sourceRef));
                     break;
 
                 case CompilationPass.Pass3GenerateCode:
@@ -57,7 +57,13 @@ namespace Devkit.BinaryResourcePlugin
             return true;
         }
 
-        public ICompilerScopeObjectData Find(string name, out IIdentifierScope scope)
+        public ICompilerScopeObject Find(string name, out IIdentifierScope scope)
+        {
+            scope = null;
+            return null;
+        }
+
+        public ICompilerScopeObject FindInChildren(string name, out IIdentifierScope scope)
         {
             scope = null;
             return null;
@@ -65,6 +71,11 @@ namespace Devkit.BinaryResourcePlugin
 
         public void Add(ICompilerScopeObject obj)
         {
+        }
+
+        public IEnumerable<ICompilerScopeObject> Objects
+        {
+            get { yield break; }
         }
     }
 }

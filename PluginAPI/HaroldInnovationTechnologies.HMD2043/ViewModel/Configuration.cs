@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Devkit.Interfaces;
@@ -73,7 +74,9 @@ namespace HaroldInnovationTechnologies.HMD2043.ViewModel
             int.TryParse(this._workspace.SettingsManager.ReadSetting(typeof(HMD2043).Name, "NumDrives") ?? "2", out drives);
             this.NumDrives = drives;
 
-            var files = (this._workspace.SettingsManager.ReadSetting(typeof(HMD2043).Name, "LibraryFiles") ?? "").Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            var files = (this._workspace.SettingsManager.ReadSetting(typeof(HMD2043).Name, "LibraryFiles") ?? "")
+                .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Where(File.Exists);
             foreach (var file in files)
             {
                 this._library.Disks.Add(new LibraryDisk(this._library, new Disk(this.DriveSystem, file)));

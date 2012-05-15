@@ -33,7 +33,7 @@ namespace HaroldInnovationTechnologies.HMD2043.ViewModel
 
         public void Remove(object parameter)
         {
-            this._library.Disks.Remove(this);
+            this._library.RemoveDisk(this);
         }
     }
 }

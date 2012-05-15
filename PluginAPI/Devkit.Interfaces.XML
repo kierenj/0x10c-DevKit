@@ -63,6 +63,48 @@
             will appear on a menu in the host application
             </summary>
         </member>
+        <member name="T:Devkit.Interfaces.Build.SourceMappedText">
+            <summary>
+            Helper class for holding source-mapped text: a list of source-referenced strings
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.SourceMappedText.ToString">
+            <summary>
+            Returns a string consisting of all component strings concatenated together
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Devkit.Interfaces.Build.ICompilerScopeObject">
+            <summary>
+            Represents an object in the code graph that the
+            user can refer to by name (by an identifier)
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.ICompilerScopeObject.Name">
+            <summary>
+            Gets the name of the object (as the object can be referred to in code)
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.ICompilerScopeObject.SymbolTypeName">
+            <summary>
+            Gets the name of the type of object
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.ICompilerScopeObject.SymbolName">
+            <summary>
+            Gets the full symbol name of the object (for information purposes)
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.IMemoryMapped.Offset">
+            <summary>
+            Gets or sets the final compiled offset for the object
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.IMemoryMapped.Size">
+            <summary>
+            Gets the number of compiled output words for the object
+            </summary>
+        </member>
         <member name="T:Devkit.Interfaces.Build.CompilationPass">
             <summary>
             Represents one of the internal DevKit compilation stages
@@ -149,11 +191,19 @@
             <param name="source"></param>
             <param name="val"></param>
         </member>
-        <member name="T:Devkit.Interfaces.Build.ICompilerScopeObjectData">
+        <member name="T:Devkit.Interfaces.Build.IDevkit10cAssemblyService">
             <summary>
-            Interface for marking objects which are the target data
-            associated with ICompilerScopeObject objects.
+            Service type to expose functionality of the Devkit built-in 10c assembly langauge
             </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IDevkit10cAssemblyService.CreateCustomAssemblyScope(Devkit.Interfaces.Build.SourceMappedText,Devkit.Interfaces.Build.CompileToolContext)">
+            <summary>
+            Creates a new source-file-level scope of assembly data, based on the supplied
+            assembly text
+            </summary>
+            <param name="source"></param>
+            <param name="context"></param>
+            <returns></returns>
         </member>
         <member name="T:Devkit.Interfaces.Build.CompileToolContext">
             <summary>
@@ -429,24 +479,9 @@
             </summary>
             <param name="sourceRefs"></param>
         </member>
-        <member name="P:Devkit.Interfaces.Build.Instruction.Offset">
-            <summary>
-            Gets or sets the final compiled offset for the instruction
-            </summary>
-        </member>
         <member name="P:Devkit.Interfaces.Build.Instruction.RangeType">
             <summary>
             Gets the type of memory range for this instruction
-            </summary>
-        </member>
-        <member name="P:Devkit.Interfaces.Build.Instruction.SourceRefs">
-            <summary>
-            Gets the list of source references for the instruction
-            </summary>
-        </member>
-        <member name="P:Devkit.Interfaces.Build.Instruction.Size">
-            <summary>
-            Gets the number of compiled output words for the instruction
             </summary>
         </member>
         <member name="M:Devkit.Interfaces.Build.LabelInstruction.#ctor(System.Collections.Generic.IEnumerable{Devkit.Interfaces.SourceReference})">
@@ -542,12 +577,40 @@
             Represents the entire application session
             </summary>
         </member>
+        <member name="M:Devkit.Interfaces.IWorkspace.RegisterService``1(``0)">
+            <summary>
+            Registers a service of the given type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="serviceImplementation"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.IWorkspace.UnregisterService``1(``0)">
+            <summary>
+            Unregisters a service of the given type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="serviceImplementation"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.IWorkspace.GetService``1">
+            <summary>
+            Retrieves a service of the given type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
         <member name="M:Devkit.Interfaces.IWorkspace.ShowDocumentationWindow(System.String,System.String)">
             <summary>
             Shows a new documentation window with the given content
             </summary>
             <param name="title"></param>
             <param name="data"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.IWorkspace.ShowDocumentationWindow(System.String,System.Uri)">
+            <summary>
+            Shows a new documentation window with the content downloaded from the given Uri
+            </summary>
+            <param name="title"></param>
+            <param name="uri"></param>
         </member>
         <member name="M:Devkit.Interfaces.IWorkspace.FileDialog(System.String,System.String,System.Boolean)">
             <summary>
@@ -634,11 +697,25 @@
             <param name="scope"></param>
             <returns></returns>
         </member>
+        <member name="M:Devkit.Interfaces.Build.IIdentifierScope.FindInChildren(System.String,Devkit.Interfaces.Build.IIdentifierScope@)">
+            <summary>
+            Finds the object with the given name, providing the scope in which the object
+            was found, in the children of this scope
+            </summary>
+            <param name="name"></param>
+            <param name="scope"></param>
+            <returns></returns>
+        </member>
         <member name="M:Devkit.Interfaces.Build.IIdentifierScope.Add(Devkit.Interfaces.Build.ICompilerScopeObject)">
             <summary>
             Registers the specified object within the scope
             </summary>
             <param name="obj"></param>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.IIdentifierScope.Objects">
+            <summary>
+            Gets the list of objects registered in this scope
+            </summary>
         </member>
         <member name="T:Devkit.Interfaces.IPluginManager">
             <summary>
@@ -1005,22 +1082,6 @@
             <param name="address"></param>
             <param name="data"></param>
         </member>
-        <member name="T:Devkit.Interfaces.Build.ICompilerScopeObject">
-            <summary>
-            Represents an object in the code graph that the
-            user can refer to by name (by an identifier)
-            </summary>
-        </member>
-        <member name="P:Devkit.Interfaces.Build.ICompilerScopeObject.Name">
-            <summary>
-            Gets the name of the object
-            </summary>
-        </member>
-        <member name="P:Devkit.Interfaces.Build.ICompilerScopeObject.Data">
-            <summary>
-            Gets the target code model object associated with the object
-            </summary>
-        </member>
         <member name="T:Devkit.Interfaces.Build.IFileTypeProvider">
             <summary>
             Implemented by service objects which can create compiled data from a source file
@@ -1054,6 +1115,11 @@
             <summary>
             Gets a flag indicating whether a new file of this type can be created
             within the DevKit workspace
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.IFileTypeProvider.IsTextual">
+            <summary>
+            Gets a flag indicating whether files of this type are textual
             </summary>
         </member>
         <member name="P:Devkit.Interfaces.Build.IFileTypeProvider.EditorControlStrategy">
@@ -1102,6 +1168,11 @@
             Removes all debug information associated with the given address
             </summary>
             <param name="address"></param>
+        </member>
+        <member name="P:Devkit.Interfaces.IDebugInfo.Symbols">
+            <summary>
+            Gets all symbols
+            </summary>
         </member>
         <member name="T:Devkit.Interfaces.Build.CustomEditorControlStrategy">
             <summary>
@@ -1198,11 +1269,6 @@
         <member name="M:Devkit.Interfaces.IOpenFile.Save">
             <summary>
             Causes the textual contents of the file to be saved to disk
-            </summary>
-        </member>
-        <member name="E:Devkit.Interfaces.IOpenFile.ScrollRequested">
-            <summary>
-            Fired when the UI for the open file must scroll to display a specific ilne
             </summary>
         </member>
         <member name="P:Devkit.Interfaces.IOpenFile.File">

@@ -40,7 +40,7 @@ namespace HaroldInnovationTechnologies.HMD2043
 
         public string Version
         {
-            get { return "1.7.3"; }
+            get { return "1.7.4"; }
         }
 
         public string Url
@@ -69,7 +69,7 @@ namespace HaroldInnovationTechnologies.HMD2043
                 case "Show documentation":
                     this._workspace.ShowDocumentationWindow(
                         "HMD2043 Documentation",
-                        ResourceHelper.GetContent("HaroldInnovationTechnologies.HMD2043.Resources.HMD2043.txt"));
+                        new Uri("https://raw.github.com/gist/2495578/8a002b8095b91178a08ac14539780255dd23a154/HIT_HMD2043.txt"));
                     break;
             }
         }
@@ -93,12 +93,15 @@ namespace HaroldInnovationTechnologies.HMD2043
 
         private void BuildOutputAvailable(string solutionFilename, ushort[] words)
         {
-            var slnName = Path.GetFileNameWithoutExtension(solutionFilename);
-            var outputBaseFilename = Path.Combine(Path.GetDirectoryName(solutionFilename), slnName);
+            lock (this)
+            {
+                var slnName = Path.GetFileNameWithoutExtension(solutionFilename);
+                var outputBaseFilename = Path.Combine(Path.GetDirectoryName(solutionFilename), slnName);
 
-            Disk newDisk = new Disk(null, slnName, outputBaseFilename + ".10cdisk");
-            newDisk.SetData(words);
-            newDisk.Save();
+                Disk newDisk = new Disk(null, slnName, outputBaseFilename + ".10cdisk");
+                newDisk.SetData(words);
+                newDisk.Save();
+            }
         }
 
         public void SetNumDrives(int numDrives)

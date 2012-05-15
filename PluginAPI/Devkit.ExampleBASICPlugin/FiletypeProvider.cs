@@ -39,6 +39,11 @@ namespace Devkit.ExampleBASICPlugin
             get { return this._editorStrategy; }
         }
 
+        public bool IsTextual
+        {
+            get { return true; }
+        }
+
         public FiletypeProvider()
         {
             this._editorStrategy = new CodeEditorStrategy();

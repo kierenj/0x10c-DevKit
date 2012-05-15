@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{45A5BD07-6EAA-49D4-9D79-287A0B22838E}</ProjectGuid>
+    <ProjectGuid>{B998EF30-14A8-4937-B70E-EC9F3BDA444E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HaroldInnovationTechnologies.HMD2043</RootNamespace>
-    <AssemblyName>HaroldInnovationTechnologies.HMD2043</AssemblyName>
+    <RootNamespace>Devkit.DCPUToolchainPlugin</RootNamespace>
+    <AssemblyName>Devkit.DCPUToolchainPlugin</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -35,9 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -51,25 +48,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackgroundFlusher.cs" />
-    <Compile Include="BinaryImage.cs" />
-    <Compile Include="Disk.cs" />
-    <Compile Include="DiskInfo.cs" />
-    <Compile Include="Drive.cs" />
-    <Compile Include="HMD2043.cs" />
-    <Compile Include="IDriveSystem.cs" />
-    <Compile Include="MediaType.cs" />
+    <Compile Include="CompileMessage.cs" />
+    <Compile Include="DCPUToolchainPlugin.cs" />
+    <Compile Include="FileScope.cs" />
+    <Compile Include="FiletypeProvider.cs" />
+    <Compile Include="Highlighting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\ResourceHelper.cs" />
-    <Compile Include="ViewModel\Configuration.cs" />
-    <Compile Include="ViewModel\Drive.cs" />
-    <Compile Include="ViewModel\LibraryDisk.cs" />
-    <Compile Include="ViewModel\Library.cs" />
-    <Compile Include="ViewModel\RelayCommand.cs" />
-    <Compile Include="ViewModel\ViewModelBase.cs" />
-    <Compile Include="View\Configuration.xaml.cs">
-      <DependentUpon>Configuration.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Devkit.Interfaces\Devkit.Interfaces.csproj">
@@ -78,22 +62,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\disk.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="View\Configuration.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\drive.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+    <Content Include="dcputoolchain\bootstrap.asm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dcputoolchain\dtcc.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

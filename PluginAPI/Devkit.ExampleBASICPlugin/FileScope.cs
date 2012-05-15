@@ -23,7 +23,13 @@ namespace Devkit.ExampleBASICPlugin
             yield break;
         }
 
-        public ICompilerScopeObjectData Find(string name, out IIdentifierScope scope)
+        public ICompilerScopeObject Find(string name, out IIdentifierScope scope)
+        {
+            scope = null;
+            return null;
+        }
+
+        public ICompilerScopeObject FindInChildren(string name, out IIdentifierScope scope)
         {
             scope = null;
             return null;
@@ -31,6 +37,11 @@ namespace Devkit.ExampleBASICPlugin
 
         public void Add(ICompilerScopeObject obj)
         {
+        }
+
+        public IEnumerable<ICompilerScopeObject> Objects
+        {
+            get { yield break; }
         }
 
         public bool Compile(CompilationPass pass, ICompiler compiler, CompileToolContext context)

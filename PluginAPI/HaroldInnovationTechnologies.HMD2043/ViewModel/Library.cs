@@ -54,5 +54,11 @@ namespace HaroldInnovationTechnologies.HMD2043.ViewModel
             this._disks.Add(new LibraryDisk(this, new Disk(this._configuration.DriveSystem, fn)));
             this._configuration.SaveConfig();
         }
+
+        public void RemoveDisk(LibraryDisk disk)
+        {
+            this._disks.Remove(disk);
+            this._configuration.SaveConfig();
+        }
     }
 }
