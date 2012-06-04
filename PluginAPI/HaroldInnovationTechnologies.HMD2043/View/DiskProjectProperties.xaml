@@ -1,0 +1,139 @@
+﻿<UserControl x:Class="HaroldInnovationTechnologies.HMD2043.View.DiskProjectProperties"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib" mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="700">
+    <Grid Background="#e6e6e6">
+        <Rectangle>
+            <Rectangle.Fill>
+                <DrawingBrush Stretch="None" TileMode="Tile" Viewport="0,0,50,50" ViewportUnits="Absolute">
+                    <DrawingBrush.Transform>
+                        <RotateTransform Angle="10"/>
+                    </DrawingBrush.Transform>
+                    <!-- a drawing of 4 checkerboard tiles -->
+                    <DrawingBrush.Drawing>
+                        <DrawingGroup>
+
+                            <!-- two checkerboard foreground tiles -->
+                            <GeometryDrawing Brush="White">
+                                <GeometryDrawing.Geometry>
+                                    <GeometryGroup>
+                                        <RectangleGeometry Rect="0,0,25,25" />
+                                        <RectangleGeometry Rect="25,25,25,25" />
+                                    </GeometryGroup>
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+
+                        </DrawingGroup>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </Rectangle.Fill>
+            <Rectangle.OpacityMask>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0" Color="#00000000"/>
+                    <GradientStop Offset="1" Color="#33000000"/>
+                </LinearGradientBrush>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+        <DockPanel Margin="10" LastChildFill="True">
+            <TextBlock DockPanel.Dock="Top" MinWidth="450" FontWeight="Light" FontSize="30" Text="{Binding Path=Name,FallbackValue=(Unknown),StringFormat='Project Properties: {0}'}"/>
+            <TabControl TabStripPlacement="Left" Margin="0,10,0,0">
+                <TabControl.Resources>
+                    <Style TargetType="{x:Type TabItem}">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter Property="Background" Value="#dddddd"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabControl.Resources>
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock FontWeight="Light" Text="Output format" Width="200" Margin="0,5"/>
+                    </TabItem.Header>
+                    <ScrollViewer>
+                        <StackPanel>
+                            <TextBlock Margin="4,4,4,0" Text="Output filename:"/>
+                            <TextBox Margin="20,2,10,0" HorizontalAlignment="Left" Text="{Binding PropertyIndexer[outputFilename], UpdateSourceTrigger=PropertyChanged}" MinWidth="200"/>
+
+                            <CheckBox Margin="4,4,4,0" IsChecked="{Binding PropertyIndexer[compress]}">Compress disk image</CheckBox>
+
+                            <Rectangle Margin="8,11,8,5" Height="1" HorizontalAlignment="Stretch" Fill="Silver"/>
+
+                            <CheckBox Margin="4,4,4,0" IsChecked="{Binding PropertyIndexer[filesystem.enabled]}" DockPanel.Dock="Left" VerticalAlignment="Center">
+                                <TextBlock DockPanel.Dock="Left" Text="Enable file system creation, using format:"/>
+                            </CheckBox>
+                            <ComboBox ItemsSource="{Binding FormatNames}" SelectedValue="{Binding PropertyIndexer[filesystem.type]}" HorizontalAlignment="Left" Width="200" Margin="20,2,10,0" VerticalAlignment="Center" IsEnabled="{Binding PropertyIndexer[filesystem.enabled]}"/>
+
+                            <Rectangle Margin="8,11,8,5" Height="1" HorizontalAlignment="Stretch" Fill="Silver"/>
+
+                            <CheckBox Margin="4,4,4,0" IsChecked="{Binding AutoLoad}" DockPanel.Dock="Left" VerticalAlignment="Center">
+                                <TextBlock Text="Automatically load the disk into a drive after build:"/>
+                            </CheckBox>
+                            <ComboBox ItemsSource="{Binding DriveNames}" SelectedValue="{Binding AutoLoadDriveName}" HorizontalAlignment="Left" Width="200" Margin="20,2,10,0" VerticalAlignment="Center" IsEnabled="{Binding AutoLoad}"/>
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock FontWeight="Light" Text="Files" Width="200" Margin="0,5"/>
+                    </TabItem.Header>
+                    <ScrollViewer>
+                        <StackPanel>
+                            <DataGrid Margin="4,4,4,0" HorizontalAlignment="Stretch" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="True" Height="200" VerticalScrollBarVisibility="Visible"
+                                      SelectedItem="{Binding SelectedEntry}" ItemsSource="{Binding Entries}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Filename" Width="*" Binding="{Binding Filename}"/>
+                                    <DataGridTextColumn Header="Size (kb)" Width="70" Binding="{Binding SizeKb}"/>
+                                    <DataGridTextColumn Header="Location" Width="150" Binding="{Binding Location}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <TextBlock Margin="4,4,4,0" Text="Selected entry location:"/>
+                            <StackPanel Orientation="Horizontal" Margin="20,2,4,0" DataContext="{Binding SelectedEntry}">
+                                <TextBlock Text="Type" VerticalAlignment="Center"/>
+                                <ComboBox Margin="5,0,0,0" SelectedValue="{Binding EntryTypeName,FallbackValue=File system}" Width="100">
+                                    <ComboBox.ItemsSource>
+                                        <x:Array Type="{x:Type sys:String}">
+                                            <sys:String>File system</sys:String>
+                                            <sys:String>Sector</sys:String>
+                                            <sys:String>Offset</sys:String>
+                                        </x:Array>
+                                    </ComboBox.ItemsSource>
+                                </ComboBox>
+                                <TextBlock Margin="10,0,0,0" Text="Index" VerticalAlignment="Center"/>
+                                <TextBox Margin="5,0,0,0" Width="100">
+                                    <TextBox.Style>
+                                        <Style TargetType="{x:Type TextBox}">
+                                            <Setter Property="Text" Value="{Binding EntryIndex,UpdateSourceTrigger=PropertyChanged}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding EntryTypeName,FallbackValue=File system}" Value="File system">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                    <Setter Property="Text" Value="n/a"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock FontWeight="Light" Text="Compilation" Width="200" Margin="0,5"/>
+                    </TabItem.Header>
+                    <ScrollViewer>
+                        <StackPanel>
+                            <TextBlock Margin="4,4,4,0" TextWrapping="Wrap">The following options are used for compiling any files in the project.  Note that all files are compiled individually, without referencing other files.  To reference other files, create a code project an include the output of the code project in the disk project instead.</TextBlock>
+
+                            <CheckBox Margin="4,4,4,0" IsChecked="{Binding PropertyIndexer[code.generateSelfRelocatingCode]}">Generate self-relocating code</CheckBox>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+        </DockPanel>
+    </Grid>
+</UserControl>
