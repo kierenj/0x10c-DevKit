@@ -49,8 +49,8 @@ namespace Devkit.BinaryResourcePlugin
                     break;
 
                 case CompilationPass.Pass3GenerateCode:
-                    compiler.AddInstruction(this._labelInstruction);
-                    compiler.AddInstruction(new BinaryFileDataInstruction(this._filename, sourceRefs));
+                    compiler.AddInstruction(this._labelInstruction, context);
+                    compiler.AddInstruction(new BinaryFileDataInstruction(this._filename, sourceRefs), context);
                     break;
             }
 

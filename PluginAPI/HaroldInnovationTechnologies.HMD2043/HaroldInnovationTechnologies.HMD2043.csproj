@@ -55,20 +55,32 @@
     <Compile Include="BinaryImage.cs" />
     <Compile Include="Disk.cs" />
     <Compile Include="DiskInfo.cs" />
+    <Compile Include="DiskProjectProvider.cs" />
     <Compile Include="Drive.cs" />
+    <Compile Include="FormatProviders\StructurelessFilesystemFormat.cs" />
     <Compile Include="HMD2043.cs" />
     <Compile Include="IDriveSystem.cs" />
+    <Compile Include="Interfaces\DiskEntry.cs" />
+    <Compile Include="Interfaces\FileSystemDiskEntry.cs" />
+    <Compile Include="Interfaces\IDiskFormatProvider.cs" />
+    <Compile Include="Interfaces\SpecificOffsetDiskEntry.cs" />
+    <Compile Include="Interfaces\SpecificSectorDiskEntry.cs" />
     <Compile Include="MediaType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\ResourceHelper.cs" />
     <Compile Include="ViewModel\Configuration.cs" />
+    <Compile Include="ViewModel\DiskProjectProperties.cs" />
     <Compile Include="ViewModel\Drive.cs" />
+    <Compile Include="ViewModel\Entry.cs" />
     <Compile Include="ViewModel\LibraryDisk.cs" />
     <Compile Include="ViewModel\Library.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\Configuration.xaml.cs">
       <DependentUpon>Configuration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DiskProjectProperties.xaml.cs">
+      <DependentUpon>DiskProjectProperties.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +100,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\DiskProjectProperties.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Images\drive.png" />
@@ -95,6 +111,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

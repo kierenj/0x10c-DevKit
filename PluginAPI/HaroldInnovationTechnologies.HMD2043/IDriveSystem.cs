@@ -11,5 +11,6 @@ namespace HaroldInnovationTechnologies.HMD2043
         void SetNumDrives(int numDrives);
         void LoadDisk(int driveIndex, Disk disk);
         void Eject(int driveIndex);
+        int NumDrives { get; }
     }
 }

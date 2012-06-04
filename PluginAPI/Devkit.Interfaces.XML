@@ -74,6 +74,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:Devkit.Interfaces.Build.ILabelNode">
+            <summary>
+            Base for all label node objects - scope objects which are memory-mapped, source-referenced and have a label type
+            </summary>
+        </member>
         <member name="T:Devkit.Interfaces.Build.ICompilerScopeObject">
             <summary>
             Represents an object in the code graph that the
@@ -95,14 +100,35 @@
             Gets the full symbol name of the object (for information purposes)
             </summary>
         </member>
+        <member name="T:Devkit.Interfaces.Build.IMemoryMapped">
+            <summary>
+            Represents an object which has a memory location and optionally a size
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IMemoryMapped.GetSize(Devkit.Interfaces.Build.CompileToolContext)">
+            <summary>
+            Gets the number of compiled output words for the object
+            </summary>
+            <param name="context"> </param>
+        </member>
         <member name="P:Devkit.Interfaces.Build.IMemoryMapped.Offset">
             <summary>
             Gets or sets the final compiled offset for the object
             </summary>
         </member>
-        <member name="P:Devkit.Interfaces.Build.IMemoryMapped.Size">
+        <member name="T:Devkit.Interfaces.Build.ISourceReferenced">
             <summary>
-            Gets the number of compiled output words for the object
+            Represents something with is referenced in one or more source locations
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.ISourceReferenced.SourceRefs">
+            <summary>
+            Gets the source code references for this object
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.ILabelNode.Type">
+            <summary>
+            Gets the type of label this node represents
             </summary>
         </member>
         <member name="T:Devkit.Interfaces.Build.CompilationPass">
@@ -205,6 +231,66 @@
             <param name="context"></param>
             <returns></returns>
         </member>
+        <member name="T:Devkit.Interfaces.Build.IProject">
+            <summary>
+            Interface for project file objects
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IProject.GetPropertyNames">
+            <summary>
+            Gets a list of extended property names for the project
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IProject.GetProperty(System.String)">
+            <summary>
+            Gets the value of an extended property for the project
+            </summary>
+            <param name="propertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IProject.SetProperty(System.String,System.String)">
+            <summary>
+            Sets the value of an extended property for the project
+            </summary>
+            <param name="propertyName"></param>
+            <param name="propertyValue"></param>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.IProject.Version">
+            <summary>
+            Gets/sets the version of the project file
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.IProject.References">
+            <summary>
+            Gets the list of references for the project
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.IProject.Files">
+            <summary>
+            Gets the list of files for the project
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.IProject.TypeCode">
+            <summary>
+            Gets/sets the type code for the project file
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.IProject.Path">
+            <summary>
+            Gets/sets the path of the project file (relative to the solution)
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.IProject.Name">
+            <summary>
+            Gets/sets the name of the project
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.IProject.AbsolutePath">
+            <summary>
+            Gets the absolute path of the project file
+            </summary>
+        </member>
         <member name="T:Devkit.Interfaces.Build.CompileToolContext">
             <summary>
             Holds the current state of compilation
@@ -215,20 +301,105 @@
             Creates a new compilation context
             </summary>
         </member>
+        <member name="M:Devkit.Interfaces.Build.CompileToolContext.PushState">
+            <summary>
+            Pushes the current context state to the stack
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.CompileToolContext.PopState">
+            <summary>
+            Pops the current context state from the stack
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.CompileToolContext.SetCurrentSegment(System.String)">
+            <summary>
+            Sets the name of the current segment
+            </summary>
+            <param name="segmentName"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.CompileToolContext.SetRelocatableCodeGeneration(System.Boolean)">
+            <summary>
+            Sets whether code generated should be relocatable
+            </summary>
+            <param name="enabled"></param>
+        </member>
         <member name="M:Devkit.Interfaces.Build.CompileToolContext.AddMessage(Devkit.Interfaces.Build.ICompileMessage)">
             <summary>
             Records a new compilation message
             </summary>
             <param name="message"></param>
         </member>
+        <member name="P:Devkit.Interfaces.Build.CompileToolContext.CurrentSegmentName">
+            <summary>
+            Gets the name of the current segment
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.CompileToolContext.GenerateRelocatableCode">
+            <summary>
+            Gets whether relocatable code should be generated
+            </summary>
+        </member>
         <member name="P:Devkit.Interfaces.Build.CompileToolContext.Messages">
             <summary>
-            Gets the current list of compilation messages
+            Gets the current list of compilation _messages
             </summary>
         </member>
         <member name="P:Devkit.Interfaces.Build.CompileToolContext.HasErrors">
             <summary>
-            Indicates whether there are any error messages in the context
+            Indicates whether there are any error _messages in the context
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.SourceReference">
+            <summary>
+            Holds a reference to a specific part of source code
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.SourceReference.#ctor(System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Creates a new instance of the source-reference class
+            </summary>
+            <param name="file"></param>
+            <param name="line"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <param name="endLine"></param>
+            <param name="endOffset"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.SourceReference.ExtendBy(Devkit.Interfaces.SourceReference)">
+            <summary>
+            Extends a source reference to have the ending of the specified source reference
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Devkit.Interfaces.SourceReference.File">
+            <summary>
+            Gets the filename
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.SourceReference.Line">
+            <summary>
+            Gets the line number
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.SourceReference.Offset">
+            <summary>
+            Gets the offset within the line
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.SourceReference.Length">
+            <summary>
+            Gets the length of the reference
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.SourceReference.EndLine">
+            <summary>
+            Gets the end line number
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.SourceReference.EndOffset">
+            <summary>
+            Gets the end offset within the end line
             </summary>
         </member>
         <member name="T:Devkit.Interfaces.MemoryDevice">
@@ -334,6 +505,12 @@
             Causes the emulation to break
             </summary>
         </member>
+        <member name="M:Devkit.Interfaces.IRuntimeManager.CreateSystem">
+            <summary>
+            Creates a new discrete system for a custom use
+            </summary>
+            <returns></returns>
+        </member>
         <member name="E:Devkit.Interfaces.IRuntimeManager.ExecutionBreak">
             <summary>
             Fired when execution is broken or stopped
@@ -392,7 +569,7 @@
         </member>
         <member name="P:Devkit.Interfaces.Build.IFile.Path">
             <summary>
-            Gets the path to the file relative to the project file
+            Gets/sets the path to the file relative to the project file
             </summary>
         </member>
         <member name="P:Devkit.Interfaces.Build.IFile.AbsolutePath">
@@ -465,9 +642,22 @@
             Base class for instructions (compiler output)
             </summary>
         </member>
+        <member name="M:Devkit.Interfaces.Build.Instruction.GetSize(Devkit.Interfaces.Build.CompileToolContext)">
+            <summary>
+            When implemented in derived classes, gets the size in words of the instruction
+            </summary>
+            <param name="context"> </param>
+        </member>
         <member name="M:Devkit.Interfaces.Build.Instruction.GetWords(Devkit.Interfaces.Build.CompileToolContext)">
             <summary>
             Gets an array of compiled output words for the instruction
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.Instruction.GetRelocatableWordIndices(Devkit.Interfaces.Build.CompileToolContext)">
+            <summary>
+            Gets a list of word indices relative to the instruction offset, for words which are relocatable (i.e. offsets)
             </summary>
             <param name="context"></param>
             <returns></returns>
@@ -479,9 +669,19 @@
             </summary>
             <param name="sourceRefs"></param>
         </member>
+        <member name="P:Devkit.Interfaces.Build.Instruction.SourceRefs">
+            <summary>
+            Gets the list of source code references associated with the instruction
+            </summary>
+        </member>
         <member name="P:Devkit.Interfaces.Build.Instruction.RangeType">
             <summary>
             Gets the type of memory range for this instruction
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.Instruction.Offset">
+            <summary>
+            Gets the offset of the instruction in memory
             </summary>
         </member>
         <member name="M:Devkit.Interfaces.Build.LabelInstruction.#ctor(System.Collections.Generic.IEnumerable{Devkit.Interfaces.SourceReference})">
@@ -490,9 +690,22 @@
             </summary>
             <param name="sourceRefs"></param>
         </member>
+        <member name="M:Devkit.Interfaces.Build.LabelInstruction.GetSize(Devkit.Interfaces.Build.CompileToolContext)">
+            <summary>
+            Returns the size of the instruction in words.  Always returns 0.
+            </summary>
+            <param name="context"> </param>
+        </member>
         <member name="M:Devkit.Interfaces.Build.LabelInstruction.GetWords(Devkit.Interfaces.Build.CompileToolContext)">
             <summary>
             Gets the list of compiled-output words for the instruction.  Always returns an empty array.
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.LabelInstruction.GetRelocatableWordIndices(Devkit.Interfaces.Build.CompileToolContext)">
+            <summary>
+            Gets the list of word indexes, relative to the instruction, which are offsets (to be relocated)
             </summary>
             <param name="context"></param>
             <returns></returns>
@@ -502,9 +715,57 @@
             Gets the type of memory range associated with the label.  Always gives type 'Unknown'.
             </summary>
         </member>
-        <member name="P:Devkit.Interfaces.Build.LabelInstruction.Size">
+        <member name="T:Devkit.Interfaces.Build.IProjectTypeProvider">
             <summary>
-            Returns the size of the instruction in words.  Always returns 0.
+            Implemented by service objects which can process a set of source files held in a project of a specific type
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IProjectTypeProvider.CreatePropertiesControl(Devkit.Interfaces.Build.IProjectProperties)">
+            <summary>
+            Creates a new UI control to edit the supplied project
+            </summary>
+            <param name="project"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IProjectTypeProvider.CanAddReference(Devkit.Interfaces.Build.IProject,Devkit.Interfaces.Build.IProject)">
+            <summary>
+            Returns true if it's a valid operation to add the specified project as a reference
+            </summary>
+            <param name="project"></param>
+            <param name="otherProject"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IProjectTypeProvider.Build(Devkit.Interfaces.Build.IBuildManager,Devkit.Interfaces.Build.ISolution,Devkit.Interfaces.Build.IProject,Devkit.Interfaces.Build.IBuildProgressMonitor)">
+            <summary>
+            Builds the project
+            </summary>
+            <param name="manager"></param>
+            <param name="solution"> </param>
+            <param name="proj"></param>
+            <param name="monitor"> </param>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IProjectTypeProvider.InitialiseProject(Devkit.Interfaces.Build.IProject)">
+            <summary>
+            Initialises a project with the default properties/settings, immediate after its construction
+            </summary>
+            <param name="proj"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IProjectTypeProvider.GetOutputAbsolutePaths(Devkit.Interfaces.Build.IProject)">
+            <summary>
+            Gets the set of absolute paths which represent the output of the project
+            </summary>
+            <param name="proj"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.IProjectTypeProvider.ProjectTypeName">
+            <summary>
+            Gets a short description of the project type
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.IProjectTypeProvider.TypeCode">
+            <summary>
+            Gets the internal type code for the type of project handled by this provider
             </summary>
         </member>
         <member name="T:Devkit.Interfaces.ISettingsManager">
@@ -598,6 +859,13 @@
             <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
+        <member name="M:Devkit.Interfaces.IWorkspace.GetServices``1">
+            <summary>
+            Retrieves all services of the given type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
         <member name="M:Devkit.Interfaces.IWorkspace.ShowDocumentationWindow(System.String,System.String)">
             <summary>
             Shows a new documentation window with the given content
@@ -621,6 +889,20 @@
             <param name="defaultExtension"> </param>
             <param name="saveDialog"></param>
             <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.IWorkspace.AddFileDecorator``1(Devkit.Interfaces.Build.IFile)">
+            <summary>
+            Adds a new decorator to a given file in the workspace
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="file"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.IWorkspace.RemoveFileDecorator``1(Devkit.Interfaces.Build.IFile)">
+            <summary>
+            Removes a decorator from a file in the workspace
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="file"></param>
         </member>
         <member name="P:Devkit.Interfaces.IWorkspace.BuildManager">
             <summary>
@@ -872,6 +1154,13 @@
             </summary>
             <param name="interrupt"></param>
         </member>
+        <member name="M:Devkit.Interfaces.ICpu.InstructionStep">
+            <summary>
+            Runs a single instruction, returning the number of cycles passed.
+            Only to be used when controlling a system created with RuntimeManager.CreateSystem
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:Devkit.Interfaces.ICpu.IsOnFire">
             <summary>
             Gets or sets the value of the 'on fire' flag
@@ -917,11 +1206,42 @@
             Interface of the coordinating compiler
             </summary>
         </member>
-        <member name="M:Devkit.Interfaces.Build.ICompiler.AddInstruction(Devkit.Interfaces.Build.Instruction)">
+        <member name="M:Devkit.Interfaces.Build.ICompiler.SetCurrentSegment(System.String,Devkit.Interfaces.Build.CompileToolContext)">
+            <summary>
+            Sets the name of segment to add instructions to
+            </summary>
+            <param name="segmentName"></param>
+            <param name="context"> </param>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.ICompiler.SetCurrentSegmentPriority(System.Int32,Devkit.Interfaces.Build.CompileToolContext)">
+            <summary>
+            Sets the build priority of the current segment.  Returns true if the operation
+            succeeded, or false if it didn't
+            </summary>
+            <param name="priority"></param>
+            <param name="context"> </param>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.ICompiler.AddInstruction(Devkit.Interfaces.Build.Instruction,Devkit.Interfaces.Build.CompileToolContext)">
             <summary>
             Adds an instruction to the compiler output
             </summary>
             <param name="node"></param>
+            <param name="context"> </param>
+        </member>
+        <member name="T:Devkit.Interfaces.Build.LabelType">
+            <summary>
+            Types of label
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.Build.LabelType.Standard">
+            <summary>
+            A standard/regular label
+            </summary>
+        </member>
+        <member name="F:Devkit.Interfaces.Build.LabelType.Local">
+            <summary>
+            A local/relative label
+            </summary>
         </member>
         <member name="T:Devkit.Interfaces.Build.ICompileMessage">
             <summary>
@@ -1006,15 +1326,41 @@
         </member>
         <member name="M:Devkit.Interfaces.Build.IBuildManager.UnregisterFileTypeProvider(Devkit.Interfaces.Build.IFileTypeProvider)">
             <summary>
-            Unregisters an alter-registered file build provider from the system
+            Unregisters an already-registered file build provider from the system
             </summary>
             <param name="provider"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IBuildManager.RegisterProjectTypeProvider(Devkit.Interfaces.Build.IProjectTypeProvider)">
+            <summary>
+            Registers a new project type provider in the system
+            </summary>
+            <param name="provider"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IBuildManager.UnregisterProjectTypeProvider(Devkit.Interfaces.Build.IProjectTypeProvider)">
+            <summary>
+            Unregisters an already-registered project type provider from the system
+            </summary>
+            <param name="provider"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IBuildManager.GetFileBuildProvider(Devkit.Interfaces.Build.IFile)">
+            <summary>
+            Gets the build provider for the specified file
+            </summary>
+            <param name="file"></param>
+            <returns></returns>
         </member>
         <member name="M:Devkit.Interfaces.Build.IBuildManager.GetFileBuildProvider(System.String)">
             <summary>
             Gets the build provider for the specified file extension
             </summary>
             <param name="extension"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.IBuildManager.GetProjectTypeProvider(System.String)">
+            <summary>
+            Gets the project type provider for the specified type code
+            </summary>
+            <param name="typeCode"></param>
             <returns></returns>
         </member>
         <member name="P:Devkit.Interfaces.Build.IBuildManager.Status">
@@ -1025,11 +1371,6 @@
         <member name="E:Devkit.Interfaces.Build.IBuildManager.BuildStatusChanged">
             <summary>
             Fired when the current build status changes
-            </summary>
-        </member>
-        <member name="E:Devkit.Interfaces.Build.IBuildManager.BuildOutputAvailable">
-            <summary>
-            Fired when build output becomes available
             </summary>
         </member>
         <member name="T:Devkit.Interfaces.Build.Level">
@@ -1157,6 +1498,13 @@
             <param name="lineNumber"></param>
             <returns></returns>
         </member>
+        <member name="M:Devkit.Interfaces.IDebugInfo.FindSymbol(System.Int32)">
+            <summary>
+            Finds a symbol given an offset
+            </summary>
+            <param name="offset"></param>
+            <returns></returns>
+        </member>
         <member name="M:Devkit.Interfaces.IDebugInfo.GetDebugInfoOffsets">
             <summary>
             Gets all memory locations with any associated debug information
@@ -1172,6 +1520,56 @@
         <member name="P:Devkit.Interfaces.IDebugInfo.Symbols">
             <summary>
             Gets all symbols
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.IDebugInfo.CodeModel">
+            <summary>
+            Gets the root code model
+            </summary>
+        </member>
+        <member name="T:Devkit.Interfaces.Build.ISolution">
+            <summary>
+            Interface for solution file objects
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.ISolution.GetPropertyNames">
+            <summary>
+            Gets the list of extended property names for solution
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.ISolution.GetProperty(System.String)">
+            <summary>
+            Gets the value of a named extended property of the solution
+            </summary>
+            <param name="propertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.ISolution.SetProperty(System.String,System.String)">
+            <summary>
+            Sets the value of a named extended property of the solution
+            </summary>
+            <param name="propertyName"></param>
+            <param name="propertyValue"></param>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.ISolution.Name">
+            <summary>
+            Gets/sets the name of the solution
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.ISolution.Path">
+            <summary>
+            Gets/sets the path of the solution file
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.ISolution.Version">
+            <summary>
+            Gets/sets the version of solution file
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.ISolution.Projects">
+            <summary>
+            Gets the list of projects in the solution
             </summary>
         </member>
         <member name="T:Devkit.Interfaces.Build.CustomEditorControlStrategy">
@@ -1378,6 +1776,69 @@
             Retrieves the hardware controller for the system
             </summary>
         </member>
+        <member name="T:Devkit.Interfaces.Build.Symbol">
+            <summary>
+            Holds information about a symbol (a useful scope object)
+            </summary>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.Symbol.#ctor(Devkit.Interfaces.IDebugInfo,Devkit.Interfaces.Build.ICompilerScopeObject)">
+            <summary>
+            Creates a new instance of the symbol class
+            </summary>
+            <param name="debugInfo"></param>
+            <param name="object"></param>
+        </member>
+        <member name="M:Devkit.Interfaces.Build.Symbol.ToString">
+            <summary>
+            Returns a string representation of the symbol in the form "SymbolTypeName: SymbolName"
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.Symbol.SymbolTypeName">
+            <summary>
+            Gets the symbol type in string form (Macro,Label,...)
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.Symbol.SymbolName">
+            <summary>
+            Gets the full display name of the symbol
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.Symbol.Name">
+            <summary>
+            Gets the name of the object itself (less likely to be unique)
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.Symbol.LabelType">
+            <summary>
+            If the object is a label, gets the type of label
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.Symbol.Offset">
+            <summary>
+            If the object is memory-mapped, gets the offset of the object
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.Symbol.OffsetClassification">
+            <summary>
+            If the object is memory-mapped, gets the type of memory pointed to by the object (e.g. Code, Data, Unknown)
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.Symbol.SourceRef">
+            <summary>
+            If the object is source-referenced, gets the first source reference for the object (else null)
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.Symbol.ProjectName">
+            <summary>
+            If the object is source-referenced, get the name of the directory holding the file (else null)
+            </summary>
+        </member>
+        <member name="P:Devkit.Interfaces.Build.Symbol.FileName">
+            <summary>
+            If the object is source-referenced, gets the name of the source file (else null)
+            </summary>
+        </member>
         <member name="T:Devkit.Interfaces.Delegates">
             <summary>
             Delegates for DevKit integration
@@ -1422,12 +1883,6 @@
             Handler for when the build status changes
             </summary>
             <param name="status"></param>
-        </member>
-        <member name="T:Devkit.Interfaces.Delegates.BuildOutputAvailableHandler">
-            <summary>
-            Handler for when the build output is produced
-            </summary>
-            <param name="words"></param>
         </member>
     </members>
 </doc>

@@ -91,7 +91,7 @@ namespace HaroldInnovationTechnologies.HMD2043.ViewModel
 
             this._workspace.SettingsManager.WriteSetting(typeof(HMD2043).Name, "NumDrives", this.NumDrives.ToString(CultureInfo.InvariantCulture));
             this._workspace.SettingsManager.WriteSetting(typeof(HMD2043).Name, "LibraryFiles",
-                string.Join(",", this._library.Disks.Select(d => d.Disk.Filename).Union(this._drives.Where(d => d.HasMedia).Select(d => d.Media.Disk.Filename))));
+                string.Join(",", this._library.Disks.Select(d => d.Disk.Filename).Concat(this._drives.Where(d => d.HasMedia).Select(d => d.Media.Disk.Filename))));
         }
     }
 }

@@ -23,16 +23,21 @@ namespace Devkit.BinaryResourcePlugin
             get { return MemoryRangeType.Data; }
         }
 
-        public override int Size
+        public override int GetSize(CompileToolContext context)
         {
-            get { return (int)(new FileInfo(this._filename).Length + 1) / 2; }
+            return (int)(new FileInfo(this._filename).Length + 1) / 2;
         }
 
         public override ushort[] GetWords(CompileToolContext context)
         {
             var wordArr = ReadBytes().ToArray();
-            if (wordArr.Length != Size) throw new ApplicationException("Word count mismatch");
+            if (wordArr.Length != GetSize(context)) throw new ApplicationException("Word count mismatch");
             return wordArr;
+        }
+
+        public override IEnumerable<int> GetRelocatableWordIndices(CompileToolContext context)
+        {
+            return new int[] { };
         }
 
         private IEnumerable<ushort> ReadBytes()

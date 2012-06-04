@@ -63,10 +63,10 @@ namespace Dk.x10c
         /// <param name="headers">If non-null, all headers will be
         /// added to this dictionary.  Header keys will be lower case.</param>
         /// <returns>The decoded image data.</returns>
-        public static ushort[] ReadImage(string path, Dictionary<string, string> headers = null)
+        public static ushort[] ReadImage(string path, out Compression compress, Dictionary<string, string> headers = null)
         {
             using (var fs = new FileStream(path, FileMode.Open))
-                return ReadImage(fs, headers);
+                return ReadImage(fs, out compress, headers);
         }
 
         /// <summary>
@@ -77,13 +77,14 @@ namespace Dk.x10c
         /// <param name="headers">If non-null, all headers will be
         /// added to this dictionary.  Header keys will be lower case.</param>
         /// <returns>The decoded image data.</returns>
-        public static ushort[] ReadImage(Stream s, Dictionary<string, string> headers = null)
+        public static ushort[] ReadImage(Stream s, out Compression compress, Dictionary<string, string> headers = null)
         {
             // Defaults as per spec
             var byteOrder = ByteOrder.BigEndian;
-            var compress = Compression.None;
             var encoding = Encoding.None;
             var payLength = -1;
+
+            compress = Compression.None;
 
             // Mark current position
             var headerStart = s.Seek(0, SeekOrigin.Current);

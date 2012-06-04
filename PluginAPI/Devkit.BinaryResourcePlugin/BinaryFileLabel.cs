@@ -41,9 +41,9 @@ namespace Devkit.BinaryResourcePlugin
             set { throw new NotSupportedException("Cannot set the Offset of BinaryFileLabel."); }
         }
 
-        public int Size
+        public int GetSize(CompileToolContext context)
         {
-            get { return this._label.Size; }
+            return this._label.GetSize(context);
         }
 
         public IEnumerable<SourceReference> SourceRefs

@@ -151,6 +151,8 @@ namespace Devkit.CodeSafetyPlugin
         private void AddHooks()
         {
             var dbgInfo = this._workspace.RuntimeManager.CurrentDebugInfo;
+            if (dbgInfo == null) return;
+
             var offsets = dbgInfo.GetDebugInfoOffsets();
             long rangeStart = -1;
             long rangeLength = 0;

@@ -11,7 +11,7 @@ namespace Devkit.BinaryResourcePlugin
 {
     public class BinaryFileEditorStrategy : CustomEditorControlStrategy
     {
-        public override FrameworkElement CreateEditorControl(IOpenFile file)
+        public override Object CreateEditorControl(IOpenFile file)
         {
             return new View.Editor() { DataContext = file };
         }

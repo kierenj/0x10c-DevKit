@@ -33,6 +33,7 @@ namespace HaroldInnovationTechnologies.HMD2043
         public override int SectorsPerTrack { get { return this._sectorsPerTrack; } }
         public override int NumTracks { get { return this._numTracks; } }
         public override bool WriteLocked { get { return this._writeLocked; } }
+        public bool Compress { get; set; }
 
         public Disk(IDriveSystem system, string filename)
         {
@@ -68,7 +69,9 @@ namespace HaroldInnovationTechnologies.HMD2043
             lock (this._lockObject)
             {
                 var headers = new Dictionary<string, string>();
-                var allData = BinaryImage.ReadImage(this._filename, headers);
+                Compression compress;
+                var allData = BinaryImage.ReadImage(this._filename, out compress, headers);
+                this.Compress = (compress != Compression.None);
                 this._mediaType = headers.ContainsKey("media-type") ? (MediaType)Enum.Parse(typeof (MediaType), headers["media-type"]) : MediaType.AuthenticHIT;
                 this._wordsPerSector = headers.ContainsKey("words-per-sector") ? int.Parse(headers["words-per-sector"]) : Disk.DefaultWordsPerSector;
                 this._sectorsPerTrack = headers.ContainsKey("sectors-per-track") ? int.Parse(headers["sectors-per-track"]) : Disk.DefaultSectorsPerTrack;
@@ -96,7 +99,7 @@ namespace HaroldInnovationTechnologies.HMD2043
                 string filename;
                 Dictionary<string, string> headers;
                 var allData = GetSaveData(out filename, out headers);
-                BinaryImage.WriteImage(filename, allData.ToArray(), headers);
+                BinaryImage.WriteImage(filename, allData.ToArray(), headers, Compress ? Compression.Zlib : Compression.None);
             }
         }
 
@@ -117,7 +120,18 @@ namespace HaroldInnovationTechnologies.HMD2043
                     Array.Copy(dataLeft.ToArray(), this._data[secNum], dataLeft.Count);
                     dataLeft.Clear();
                 }
+                secNum++;
             }
+        }
+
+        public ushort[] GetData()
+        {
+            var allData = new List<ushort>();
+            for (int i = 0; i < this.NumSectors; i++)
+            {
+                allData.AddRange(this._data[i]);
+            }
+            return allData.ToArray();
         }
 
         internal ushort[] GetSaveData(out string filename, out Dictionary<string,string> headers)
@@ -133,15 +147,9 @@ namespace HaroldInnovationTechnologies.HMD2043
                 headers["type"] = "Floppy";
                 headers["disk-name"] = this._name;
 
-                var allData = new List<ushort>();
-                for (int i = 0; i < this.NumSectors; i++)
-                {
-                    allData.AddRange(this._data[i]);
-                }
-
                 filename = this._filename;
 
-                return allData.ToArray();
+                return GetData();
             }
         }
 

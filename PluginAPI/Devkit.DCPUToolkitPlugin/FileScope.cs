@@ -43,7 +43,8 @@ namespace Devkit.DCPUToolchainPlugin
                               RedirectStandardError = true,
                               RedirectStandardOutput = true,
                               UseShellExecute = false,
-                              WindowStyle = ProcessWindowStyle.Hidden
+                              WindowStyle = ProcessWindowStyle.Hidden,
+                              CreateNoWindow = true
                           };
             var process = Process.Start(psi);
 
@@ -57,7 +58,16 @@ namespace Devkit.DCPUToolchainPlugin
             if (File.Exists(tempPath))
             {
                 bool bootstrap = false;
-                this._compiledAssembly = (bootstrap ? File.ReadAllText(Path.Combine(dcpuFolder, "bootstrap.asm")) + Environment.NewLine : "") + File.ReadAllText(tempPath);
+                this._compiledAssembly = (bootstrap ? File.ReadAllText(Path.Combine(dcpuFolder, "bootstrap.dasm16")) + Environment.NewLine: "")
+
+                    // dtcc uses a .SECTION INIT for global initialisers; create a segment at prio 250
+                    + "#segment init 250" + Environment.NewLine
+
+                    // the generated assembly can start with data..
+                    + "#segment data" + Environment.NewLine
+
+                    + File.ReadAllText(tempPath);
+
                 File.Delete(tempPath);
             }
             else
@@ -87,22 +97,16 @@ namespace Devkit.DCPUToolchainPlugin
 
         private void ProcessErrorLine(string text)
         {
-            const string prefix = "error at line ";
+            if (!text.Contains(": ")) return;
 
-            if (!text.StartsWith(prefix)) return;
-            text = text.Substring(prefix.Length);
-            int spacePos = text.IndexOf(' ');
-
+            int spacePos = text.IndexOf(':');
             int line = int.Parse(text.Substring(0, spacePos));
 
             text = text.Substring(spacePos + 1);
-            spacePos = text.IndexOf(' ');
+            spacePos = text.IndexOf(": ", System.StringComparison.Ordinal);
+            string filename = text.Substring(0, spacePos);
+            
             text = text.Substring(spacePos + 2);
-
-            int aposPos = text.IndexOf('\'');
-            string filename = text.Substring(0, aposPos);
-
-            text = text.Substring(aposPos + 3);
 
             this._externalErrors.Add(new CompileMessage
             {
@@ -175,6 +179,7 @@ namespace Devkit.DCPUToolchainPlugin
                 var mappedSource = new SourceMappedText();
 
                 var currentText = new StringBuilder();
+                var allText = new StringBuilder();
                 SourceReference currentRef = null;
                 using (var reader = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(this._compiledAssembly))))
                 {
@@ -192,10 +197,17 @@ namespace Devkit.DCPUToolchainPlugin
                                 if (currentRef != null)
                                 {
                                     mappedSource.Add(new Tuple<SourceReference, string>(currentRef, currentText.ToString()));
+                                    allText.Append(currentText);
                                     currentText = new StringBuilder();
                                 }
                                 currentRef = new SourceReference(file, lineNum, 1, 1, lineNum, 1);
                             }
+                            continue;
+                        }
+                        else if (line.StartsWith(".SECTION"))
+                        {
+                            var sectionInfo = line.Substring(line.IndexOf(' ') + 1);
+                            currentText.AppendLine("#segment " + sectionInfo.ToLower());
                             continue;
                         }
                         else if (
@@ -214,7 +226,10 @@ namespace Devkit.DCPUToolchainPlugin
                 if (currentRef != null)
                 {
                     mappedSource.Add(new Tuple<SourceReference, string>(currentRef, currentText.ToString()));
+                    allText.Append(currentText);
                 }
+
+                var allForDebug = allText.ToString();
 
                 // use built-in assembler
                 this._assemblyScope = asmService.CreateCustomAssemblyScope(mappedSource, context);

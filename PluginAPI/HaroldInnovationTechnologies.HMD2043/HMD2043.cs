@@ -4,7 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Threading;
 using Devkit.Interfaces;
+using HaroldInnovationTechnologies.HMD2043.FormatProviders;
+using HaroldInnovationTechnologies.HMD2043.Interfaces;
 using HaroldInnovationTechnologies.HMD2043.Resources;
 using HaroldInnovationTechnologies.HMD2043.View;
 
@@ -12,11 +15,14 @@ namespace HaroldInnovationTechnologies.HMD2043
 {
     public class HMD2043 : IPlugin, IDriveSystem
     {
+        private Dispatcher _uiDispatcher;
         private IWorkspace _workspace;
+        private DiskProjectProvider _diskProjectProvider;
         private BackgroundFlusher _flusher;
         private ViewModel.Configuration _configuration;
         private List<Drive> _drives;
         private Disk _disk;
+        private StructurelessFilesystemFormat _structurelessFormat;
 
         public Guid Guid
         {
@@ -74,34 +80,37 @@ namespace HaroldInnovationTechnologies.HMD2043
             }
         }
 
+        public IEnumerable<IDiskFormatProvider> DiskFormats
+        {
+            get { return this._workspace.GetServices<IDiskFormatProvider>(); }
+        }
+
         public void Load(IWorkspace workspace)
         {
+            this._uiDispatcher = Dispatcher.CurrentDispatcher;
             this._workspace = workspace;
             this._flusher = new BackgroundFlusher();
             this._drives = new List<Drive>();
             this._configuration = new ViewModel.Configuration(this._workspace, this);
+            this._diskProjectProvider = new DiskProjectProvider(this, this._workspace);
+            this._structurelessFormat = new StructurelessFilesystemFormat();
 
-            workspace.BuildManager.BuildOutputAvailable += new Delegates.BuildOutputAvailableHandler(BuildOutputAvailable);
+            workspace.RegisterService<IDiskFormatProvider>(this._structurelessFormat);
+            workspace.BuildManager.RegisterProjectTypeProvider(this._diskProjectProvider);
         }
 
         public void Unload(IWorkspace workspace)
         {
-            workspace.BuildManager.BuildOutputAvailable -= new Delegates.BuildOutputAvailableHandler(BuildOutputAvailable);
             this._flusher.Stop();
             SetNumDrives(0);
+
+            workspace.BuildManager.UnregisterProjectTypeProvider(this._diskProjectProvider);
+            workspace.UnregisterService(this._structurelessFormat);
         }
 
-        private void BuildOutputAvailable(string solutionFilename, ushort[] words)
+        public int NumDrives
         {
-            lock (this)
-            {
-                var slnName = Path.GetFileNameWithoutExtension(solutionFilename);
-                var outputBaseFilename = Path.Combine(Path.GetDirectoryName(solutionFilename), slnName);
-
-                Disk newDisk = new Disk(null, slnName, outputBaseFilename + ".10cdisk");
-                newDisk.SetData(words);
-                newDisk.Save();
-            }
+            get { return this._drives.Count; }
         }
 
         public void SetNumDrives(int numDrives)
@@ -121,6 +130,28 @@ namespace HaroldInnovationTechnologies.HMD2043
         }
 
         public void LoadDisk(int driveIndex, Disk disk)
+        {
+            if (!this._uiDispatcher.CheckAccess())
+            {
+                this._uiDispatcher.Invoke(new Action(() => LoadDisk(driveIndex, disk)));
+                return;
+            }
+
+            var loadedDrive = this._configuration.Drives.SingleOrDefault(dr => dr.HasMedia && dr.Media.Disk.Filename == disk.Filename);
+            if (loadedDrive != null)
+            {
+                loadedDrive.Eject();
+            }
+            var libraryDisk = this._configuration.Library.Disks.SingleOrDefault(d => d.Disk.Filename == disk.Filename);
+            if (libraryDisk != null)
+            {
+                this._configuration.Library.RemoveDisk(libraryDisk);
+            }
+            var newDisk = this._configuration.Library.AddSpecificDisk(disk);
+            this._configuration.Drives[driveIndex].LoadMedia(newDisk);
+        }
+
+        void IDriveSystem.LoadDisk(int driveIndex, Disk disk)
         {
             this._drives[driveIndex].ChangeMedia(disk);
         }

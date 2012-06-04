@@ -62,10 +62,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="dcputoolchain\bootstrap.asm">
+    <Content Include="dcputoolchain\dtcc.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="dcputoolchain\dtcc.exe">
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="dcputoolchain\bootstrap.dasm16">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="dcputoolchain\bootstrap_no_screen.dasm16">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
