@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="Devkit.IDE.View.MemoryView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:System="clr-namespace:System;assembly=mscorlib">
+  <DockPanel LastChildFill="True">
+    <DockPanel DockPanel.Dock="Top">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Label>Words per row:</Label>
+        <ComboBox Grid.Column="1" VerticalAlignment="Center" Margin="2" SelectedValue="{Binding WordsPerRow}">
+          <ComboBox.ItemsSource>
+            <x:ArrayExtension Type="{x:Type System:Int32}">
+              <System:Int32>1</System:Int32>
+              <System:Int32>2</System:Int32>
+              <System:Int32>4</System:Int32>
+              <System:Int32>8</System:Int32>
+              <System:Int32>16</System:Int32>
+              <System:Int32>32</System:Int32>
+              <System:Int32>64</System:Int32>
+            </x:ArrayExtension>
+          </ComboBox.ItemsSource>
+        </ComboBox>
+        <CheckBox Grid.ColumnSpan="3" Grid.Row="1" Content="Show one character for each 8-bit byte" VerticalAlignment="Center" IsChecked="{Binding ShowCharacterPerByte}" />
+      </Grid>
+    </DockPanel>
+    <ListView x:ConnectionId="1" FontFamily="Consolas, Courier New" ItemsSource="{Binding}">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <TextBlock Text="{Binding Value}" />
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </DockPanel>
+</UserControl>

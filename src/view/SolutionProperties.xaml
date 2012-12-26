@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="Devkit.IDE.View.SolutionProperties" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:IDE="clr-namespace:Devkit.IDE" xmlns:Converters="clr-namespace:Devkit.IDE.Converters" xmlns:View="clr-namespace:Devkit.IDE.View" xmlns:ViewModel="clr-namespace:Devkit.Workspace.ViewModel;assembly=Devkit.Workspace" xmlns:System="clr-namespace:System;assembly=mscorlib">
+  <Grid Background="#FFE6E6E6">
+    <Rectangle>
+      <Rectangle.Fill>
+        <DrawingBrush Stretch="None" TileMode="Tile" Viewport="0,0,50,50" ViewportUnits="Absolute">
+          <DrawingBrush.Transform>
+            <RotateTransform Angle="10" />
+          </DrawingBrush.Transform>
+          <DrawingBrush.Drawing>
+            <DrawingGroup>
+              <GeometryDrawing Brush="#FFFFFFFF">
+                <GeometryDrawing.Geometry>
+                  <GeometryGroup>
+                    <RectangleGeometry Rect="0,0,25,25" />
+                    <RectangleGeometry Rect="25,25,25,25" />
+                  </GeometryGroup>
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+            </DrawingGroup>
+          </DrawingBrush.Drawing>
+        </DrawingBrush>
+      </Rectangle.Fill>
+      <Rectangle.OpacityMask>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+          <GradientStop Offset="0" Color="#00000000" />
+          <GradientStop Offset="1" Color="#33000000" />
+        </LinearGradientBrush>
+      </Rectangle.OpacityMask>
+    </Rectangle>
+    <DockPanel Margin="10" LastChildFill="True">
+      <TextBlock DockPanel.Dock="Top" MinWidth="450" TextBlock.FontWeight="Light" TextBlock.FontSize="30" Text="{Binding Path=Name, FallbackValue=(Unknown), StringFormat=Solution Properties: {0}}" />
+      <TabControl TabStripPlacement="Left" Margin="0,10,0,0">
+        <TabControl.Resources>
+          <Style x:Key="{x:Type TabItem}" TargetType="{x:Type TabItem}">
+            <Style.Triggers>
+              <Trigger Property="TabItem.IsSelected" Value="False">
+                <Setter Property="Control.Background" Value="#FFDDDDDD" />
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+        </TabControl.Resources>
+        <TabItem>
+          <TabItem.Header>
+            <TextBlock TextBlock.FontWeight="Light" Text="Debug Environment" Width="200" Margin="0,5" />
+          </TabItem.Header>
+          <ScrollViewer>
+            <StackPanel>
+              <TextBlock Margin="4,4,4,0" Text="Emulator memory contents on startup:" />
+              <RadioButton Margin="4,2,10,0" GroupName="memContentsMode" IsChecked="{Binding IsLoadModeNone}">None</RadioButton>
+              <RadioButton Margin="4,2,10,0" GroupName="memContentsMode" IsChecked="{Binding IsLoadModeProject}">Project</RadioButton>
+              <ComboBox Margin="20,2,10,0" Width="200" HorizontalAlignment="Left" DisplayMemberPath="Name" SelectedValuePath="Name" SelectedValue="{Binding LoadProjectName}" IsEnabled="{Binding IsLoadModeProject}" ItemsSource="{Binding Projects}" />
+              <RadioButton Margin="4,4,4,0" GroupName="memContentsMode" IsChecked="{Binding IsLoadModeBinary}">Binary file</RadioButton>
+              <StackPanel Orientation="Horizontal" Margin="20,2,10,0" HorizontalAlignment="Left" IsEnabled="{Binding IsLoadModeBinary}">
+                <TextBox MinWidth="200" Text="{Binding LoadBinaryFilename, UpdateSourceTrigger=PropertyChanged}" />
+                <Button x:ConnectionId="1" Margin="2,0,0,0" Width="60" Content="Browse..." />
+              </StackPanel>
+              <Rectangle Margin="8,11,8,5" Height="1" HorizontalAlignment="Stretch" Fill="#FFC0C0C0" />
+              <CheckBox Margin="4,4,4,0" DockPanel.Dock="Left" VerticalAlignment="Center" IsChecked="{Binding SetStartupCoreSpeed}">
+                <TextBlock DockPanel.Dock="Left" Text="Set emulation core speed on startup:" />
+              </CheckBox>
+              <ComboBox SelectedValuePath="Value" HorizontalAlignment="Left" Width="200" Margin="20,2,10,0" VerticalAlignment="Center" SelectedValue="{Binding StartupCoreSpeed}" IsEnabled="{Binding SetStartupCoreSpeed}">
+                <ViewModel:LabelledOption Label="1KHz" Value="1000" />
+                <ViewModel:LabelledOption Label="10KHz" Value="10000" />
+                <ViewModel:LabelledOption Label="25KHz" Value="25000" />
+                <ViewModel:LabelledOption Label="100KHz" Value="100000" />
+                <ViewModel:LabelledOption Label="250KHz" Value="250000" />
+                <ViewModel:LabelledOption Label="1MHz" Value="1000000" />
+                <ViewModel:LabelledOption Label="5MHz" Value="5000000" />
+                <ViewModel:LabelledOption Label="10MHz" Value="10000000" />
+                <ViewModel:LabelledOption Label="25MHz" Value="25000000" />
+                <ViewModel:LabelledOption Label="50MHz" Value="50000000" />
+              </ComboBox>
+            </StackPanel>
+          </ScrollViewer>
+        </TabItem>
+      </TabControl>
+    </DockPanel>
+  </Grid>
+</UserControl>

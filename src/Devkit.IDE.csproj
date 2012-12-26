@@ -1,0 +1,529 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{AE62A7E6-F765-4AE0-9854-35EF7A30E8D2}</ProjectGuid>
+    <SchemaVersion>2</SchemaVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <AssemblyName>Devkit.IDE</AssemblyName>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <Optimize>false</Optimize>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>false</DebugSymbols>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>pdbonly</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System" />
+    <Reference Include="Devkit.Interfaces">
+      <HintPath>.\Devkit.IDEReferences\Devkit.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <AutoGen>false</AutoGen>
+      <DependentUpon>App.xaml</DependentUpon>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Devkit.IDE\View\StandardBrushFactory.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Devkit.IDE\View\OffsetMargin.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Devkit.IDE\ViewModel\ItemPropertyPage.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Devkit.IDE\Converters\DiscreteOptionConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="View\DocumentationWindow.xaml.cs">
+      <AutoGen>false</AutoGen>
+      <DependentUpon>DocumentationWindow.xaml</DependentUpon>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Devkit.IDE\View\CodeBackgroundRenderer.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Devkit.IDE\View\InfoRequestViewBase_T_.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Devkit.IDE\View\NewFile.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Devkit.IDE\Converters\StrategyHighlighter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="View\StartPage.xaml.cs">
+      <AutoGen>false</AutoGen>
+      <DependentUpon>StartPage.xaml</DependentUpon>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Devkit.IDE\Converters\WordConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="View\CodeProjectProperties.xaml.cs">
+      <AutoGen>false</AutoGen>
+      <DependentUpon>CodeProjectProperties.xaml</DependentUpon>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Devkit.IDE\Commands\WorkspaceCommands.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="View\Welcome.xaml.cs">
+      <AutoGen>false</AutoGen>
+      <DependentUpon>Welcome.xaml</DependentUpon>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Devkit.IDE\View\UiService.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="View\SolutionProperties.xaml.cs">
+      <AutoGen>false</AutoGen>
+      <DependentUpon>SolutionProperties.xaml</DependentUpon>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\MemoryView.xaml.cs">
+      <AutoGen>false</AutoGen>
+      <DependentUpon>MemoryView.xaml</DependentUpon>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\FindAndReplace.xaml.cs">
+      <AutoGen>false</AutoGen>
+      <DependentUpon>FindAndReplace.xaml</DependentUpon>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\CodeEditor.xaml.cs">
+      <AutoGen>false</AutoGen>
+      <DependentUpon>CodeEditor.xaml</DependentUpon>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Devkit.IDE\Converters\NullSeperatorStyleSelector.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Controls\AddReferenceContextMenu.xaml.cs">
+      <AutoGen>false</AutoGen>
+      <DependentUpon>AddReferenceContextMenu.xaml</DependentUpon>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Devkit.IDE\View\NewFolderedItem.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Devkit.IDE\Resources\Images.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Devkit.IDE\Converters\PluginCommandsGenerator.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Devkit.IDE\View\NewFolderedTypedItem.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="View\Display.xaml.cs">
+      <AutoGen>false</AutoGen>
+      <DependentUpon>Display.xaml</DependentUpon>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\Disassembly.xaml.cs">
+      <AutoGen>false</AutoGen>
+      <DependentUpon>Disassembly.xaml</DependentUpon>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Devkit.IDE\Converters\ContextMenuConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Devkit.IDE\View\NewItem.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Devkit.IDE\Controls\RecentFileList.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Devkit.IDE\Commands\CommonCommands.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.Attributes\PoweredByAttribute.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.AssemblyResolver\AssemblyResolver.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.AssemblyResolver\AssemblyResolverHelper.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.Attributes\ObfuscateControlFlowAttribute.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.Shared\AppNameFinder.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.Shared\AppPathFinder.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.Shared\AppRegistryKeys.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.Shared\HashType.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.Zip\AESCryptoIndirector.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.Zip\DESCryptoIndirector.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.Zip\DoNotEncodeStringsAttribute.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.Zip\SimpleZip.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="u003cPrivateImplementationDetailsu003e.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\DoNotPruneAttribute.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\DoNotObfuscateAttribute.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\DoNotObfuscateTypeAttribute.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\DoNotPruneTypeAttribute.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\Encryption.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\ReportSender.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\ErrorReportSender.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\ObjectAndType.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\FatalExceptionEventArgs.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\FatalExceptionEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\ReportExceptionEventArgs.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\ReportUsageAttribute.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\Resources.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\SecurityExceptionEventArgs.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\SendingReportFeedbackEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\SendingReportFeedbackEventArgs.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\SendingReportStep.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\SmartStackFrame.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\StackFrameHelper.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\StringCallback.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\Strings.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\UI\AutoHeightLabel.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\UI\FeedbackControl.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\UI\HeaderControl.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\UI\IconState.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\UI\PoweredBy.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\UI\WaitSendingReportControl.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\UnhandledExceptionHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\UploadReportLoginService.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\ReportingService.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\WebServicesClient.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\Win32.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsCore\XmlElementSpanner.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsWithAdvancedUI\RegistryHelper.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsWithAdvancedUI\SecurityExceptionForm.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsWithAdvancedUI\UnhandledExceptionHandlerWithAdvancedUI.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SmartAssembly.SmartExceptionsWithAdvancedUI\ExceptionReportingForm.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Form</SubType>
+    </Compile>
+    <EmbeddedResource Include="SmartAssembly.SmartExceptionsWithAdvancedUI\ExceptionReportingForm.resx">
+      <DependentUpon>ExceptionReportingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SmartAssembly.SmartExceptionsCore.Resources.current.png" />
+    <EmbeddedResource Include="SmartAssembly.SmartExceptionsCore.Resources.data.png" />
+    <EmbeddedResource Include="SmartAssembly.SmartExceptionsCore.Resources.error.png" />
+    <EmbeddedResource Include="SmartAssembly.SmartExceptionsCore.Resources.error16.png" />
+    <EmbeddedResource Include="SmartAssembly.SmartExceptionsCore.Resources.network.png" />
+    <EmbeddedResource Include="SmartAssembly.SmartExceptionsCore.Resources.ok.png" />
+    <EmbeddedResource Include="SmartAssembly.SmartExceptionsCore.Resources.warning16.png" />
+    <EmbeddedResource Include="SmartAssembly.SmartExceptionsCore.Resources.{logo}.png" />
+    <EmbeddedResource Include="SmartAssembly.SmartExceptionsCore.Resources.default.ico" />
+    <EmbeddedResource Include="{64355e1d-e1c9-4b52-9dfd-8eca2f4fc5f7}" />
+    <EmbeddedResource Include="{05a01177-3cae-4e4e-8d96-124a61febcec}" />
+    <EmbeddedResource Include="{ef27fa85-8691-49f2-a275-db09171c068c}" />
+    <EmbeddedResource Include="{dae1045a-31c4-4a06-b0e1-9a4d2516b6b2}" />
+    <EmbeddedResource Include="{5362a84b-7e19-4e6d-b4af-6eaf1ba8fcb2}" />
+    <EmbeddedResource Include="{afbb3f7b-1edb-4405-bf4d-0bc28bf872e1}" />
+    <EmbeddedResource Include="{3de09a99-5ded-48ea-8722-68ef60587e0e}" />
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\StartPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\CodeProjectProperties.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Welcome.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SolutionProperties.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MemoryView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\FindAndReplace.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\CodeEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\AddReferenceContextMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Display.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Disassembly.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Resource Include="app_icon.ico" />
+    <Resource Include="resources\images\project_delete_16.png" />
+    <Resource Include="resources\styles.commands.baml" />
+    <Resource Include="resources\images\redo_16.png" />
+    <Resource Include="resources\images\build_16.png" />
+    <Resource Include="resources\images\navigate_back_16.png" />
+    <Resource Include="view\newfolderedtypeditem.baml" />
+    <Resource Include="resources\styles.buttons.baml" />
+    <Resource Include="resources\images\project_open_16.png" />
+    <Resource Include="resources\images\test_pause_16.png" />
+    <Resource Include="resources\images\cut_16.png" />
+    <Resource Include="resources\styles.solutionexplorer.baml" />
+    <Resource Include="resources\images\file_add_16.png" />
+    <Resource Include="resources\images\file_16.png" />
+    <Resource Include="resources\images\breakpoint_on_16.png" />
+    <Resource Include="resources\images\cross.png" />
+    <Resource Include="view\newfoldereditem.baml" />
+    <Resource Include="view\newitem.baml" />
+    <Resource Include="resources\images\file_open_16.png" />
+    <Resource Include="resources\styles.baml" />
+    <Resource Include="resources\images\refresh_16.png" />
+    <Resource Include="resources\images\copy_16.png" />
+    <Resource Include="resources\images\folder_open_32.png" />
+    <Resource Include="resources\images\file_delete_16.png" />
+    <Resource Include="resources\images\folder_open_16.png" />
+    <Resource Include="resources\images\solution_delete_16.png" />
+    <Resource Include="resources\images\save_all_16.png" />
+    <Resource Include="resources\images\logo_large.png" />
+    <Resource Include="resources\images\delete_16.png" />
+    <Resource Include="resources\images\test_stop_16.png" />
+    <Resource Include="resources\images\test_step_16.png" />
+    <Resource Include="resources\images\project_add_16.png" />
+    <Resource Include="resources\images\undo_16.png" />
+    <Resource Include="resources\images\test_run_16.png" />
+    <Resource Include="resources\images\solution_new_16.png" />
+    <Resource Include="resources\images\paste_16.png" />
+    <Resource Include="resources\images\test_show_next_16.png" />
+    <Resource Include="resources\images\solution_new_32.png" />
+    <Resource Include="resources\images\project_16.png" />
+    <Resource Include="view\newfile.baml" />
+    <Resource Include="resources\images\solution_open_16.png" />
+    <Resource Include="resources\images\tick.png" />
+    <Resource Include="resources\images\solution_16.png" />
+    <Resource Include="resources\images\navigate_forward_16.png" />
+    <Resource Include="resources\images\font.png" />
+    <Resource Include="resources\images\save_16.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="Devkit.IDE.View.Welcome" x:ConnectionId="1" Title="Welcome" Height="300" Width="500" AllowsTransparency="True" Background="#00FFFFFF" WindowStyle="None" WindowStartupLocation="CenterScreen" RenderTransformOrigin="0.5,0.5" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Window.Resources>
+    <Storyboard x:Key="closeStoryBoard" x:ConnectionId="2">
+      <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.2" FillBehavior="HoldEnd" />
+      <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" From="1" To="0" Duration="0:0:0.2" FillBehavior="HoldEnd" />
+      <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" From="1" To="0" Duration="0:0:0.2" FillBehavior="HoldEnd" />
+    </Storyboard>
+  </Window.Resources>
+  <Window.RenderTransform>
+    <ScaleTransform CenterX="0.5" CenterY="0.5" />
+  </Window.RenderTransform>
+  <Grid Margin="10">
+    <Border CornerRadius="8,8,0,0" BorderBrush="#FF000000" BorderThickness="1" Margin="1" Padding="2" Background="#FFFFFFFF">
+      <Border.Effect>
+        <DropShadowEffect Opacity="0.5" />
+      </Border.Effect>
+      <Grid VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Height="45" Margin="0,0,5,0">
+          <TextBlock x:ConnectionId="3" Name="message" TextBlock.Foreground="#FF222222" TextWrapping="Wrap" MaxWidth="320" TextBlock.FontSize="10" TextBlock.TextAlignment="Right" VerticalAlignment="Center" />
+        </Grid>
+        <StackPanel Orientation="Vertical">
+          <Label FontSize="40" FontWeight="Heavy" FontFamily="Consolas, Courier New" Margin="0,5,0,0">
+            <Label.RenderTransform>
+              <RotateTransform Angle="-5" />
+            </Label.RenderTransform>
+            <TextBlock>
+              <TextBlock>0x10</TextBlock>
+              <TextBlock Margin="-29,0"> ͨ</TextBlock>
+            </TextBlock>
+          </Label>
+          <Grid Margin="50,-25,0,-5">
+            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10">
+              <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                  <LinearGradientBrush.GradientStops>
+                    <GradientStop Offset="0" Color="#fff" />
+                    <GradientStop Offset="1" Color="#ccc" />
+                  </LinearGradientBrush.GradientStops>
+                </LinearGradientBrush>
+              </Rectangle.Fill>
+            </Rectangle>
+            <Label FontSize="40" FontWeight="Light">Development Kit</Label>
+          </Grid>
+          <Label HorizontalAlignment="Right" Content="Version 1.7.5 - Beta" Margin="2,-2" />
+          <Label HorizontalAlignment="Right" Margin="2,-2">
+            <Hyperlink x:ConnectionId="4" Tag="http://0x10c-devkit.com/">http://0x10c-devkit.com/</Hyperlink>
+          </Label>
+        </StackPanel>
+        <TextBox x:ConnectionId="5" Name="txtTerms" IsReadOnly="True" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" Margin="4" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible" FontSize="11">©Copyright 2012</TextBox>
+        <Button x:ConnectionId="6" Grid.Row="2" HorizontalAlignment="Right" Content="OK" Width="60" IsDefault="True" IsCancel="True" />
+      </Grid>
+    </Border>
+  </Grid>
+</Window>

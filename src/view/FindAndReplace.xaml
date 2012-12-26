@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="Devkit.IDE.View.FindAndReplace" Title="Find and Replace" SizeToContent="Height" Width="400" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner" FocusManager.FocusedElement="{Binding ElementName=searchTerm}" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <Label>Find what:</Label>
+    <TextBox x:ConnectionId="1" Name="searchTerm" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" MinWidth="100" Margin="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+    <Label Grid.Row="1">Replace with:</Label>
+    <TextBox Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" VerticalAlignment="Center" MinWidth="100" Margin="1" Text="{Binding ReplaceText, UpdateSourceTrigger=PropertyChanged}" />
+    <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Margin="5">
+      <CheckBox Content="Match case" IsChecked="{Binding MatchCase}" />
+      <CheckBox Content="Use regular expressions" IsChecked="{Binding IsRegularExpression}" />
+    </StackPanel>
+    <GroupBox Grid.Row="2" Grid.Column="2" Header="Direction">
+      <StackPanel>
+        <RadioButton Content="Down" IsChecked="True" />
+        <RadioButton Content="Up" IsChecked="{Binding ReverseDirection}" />
+      </StackPanel>
+    </GroupBox>
+    <StackPanel Orientation="Vertical" Grid.Column="3" Grid.RowSpan="3" Margin="1">
+      <Button Content="Find next" Width="80" Height="22" IsDefault="True" Command="{Binding FindNextCommand}" />
+      <Rectangle Height="1" />
+      <Button Content="Replace" Width="80" Height="22" Command="{Binding ReplaceCommand}" />
+      <Rectangle Height="1" />
+      <Button Content="Replace all" Width="80" Height="22" Command="{Binding ReplaceAllCommand}" />
+      <Rectangle Height="1" />
+      <Button x:ConnectionId="2" Content="Cancel" Width="80" Height="22" IsCancel="True" />
+    </StackPanel>
+  </Grid>
+</Window>
