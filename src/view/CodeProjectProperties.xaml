@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="Devkit.IDE.View.CodeProjectProperties" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
+  <Grid Background="#FFE6E6E6">
+    <Rectangle>
+      <Rectangle.Fill>
+        <DrawingBrush Stretch="None" TileMode="Tile" Viewport="0,0,50,50" ViewportUnits="Absolute">
+          <DrawingBrush.Transform>
+            <RotateTransform Angle="10" />
+          </DrawingBrush.Transform>
+          <DrawingBrush.Drawing>
+            <DrawingGroup>
+              <GeometryDrawing Brush="#FFFFFFFF">
+                <GeometryDrawing.Geometry>
+                  <GeometryGroup>
+                    <RectangleGeometry Rect="0,0,25,25" />
+                    <RectangleGeometry Rect="25,25,25,25" />
+                  </GeometryGroup>
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+            </DrawingGroup>
+          </DrawingBrush.Drawing>
+        </DrawingBrush>
+      </Rectangle.Fill>
+      <Rectangle.OpacityMask>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+          <GradientStop Offset="0" Color="#00000000" />
+          <GradientStop Offset="1" Color="#33000000" />
+        </LinearGradientBrush>
+      </Rectangle.OpacityMask>
+    </Rectangle>
+    <DockPanel Margin="10" LastChildFill="True">
+      <TextBlock DockPanel.Dock="Top" MinWidth="450" TextBlock.FontWeight="Light" TextBlock.FontSize="30" Text="{Binding Path=Name, FallbackValue=(Unknown), StringFormat=Project Properties: {0}}" />
+      <TabControl TabStripPlacement="Left" Margin="0,10,0,0">
+        <TabControl.Resources>
+          <Style x:Key="{x:Type TabItem}" TargetType="{x:Type TabItem}">
+            <Style.Triggers>
+              <Trigger Property="TabItem.IsSelected" Value="False">
+                <Setter Property="Control.Background" Value="#FFDDDDDD" />
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+        </TabControl.Resources>
+        <TabItem>
+          <TabItem.Header>
+            <TextBlock TextBlock.FontWeight="Light" Text="Compilation" Width="200" Margin="0,5" />
+          </TabItem.Header>
+          <ScrollViewer>
+            <StackPanel>
+              <CheckBox Margin="4,4,4,0" IsChecked="{Binding PropertyIndexer[code.setFirstFile]}">Compile this file first (use as an entry point if not using segments):</CheckBox>
+              <ComboBox Margin="20,2,10,0" Width="200" HorizontalAlignment="Left" DisplayMemberPath="Path" SelectedValuePath="Path" SelectedValue="{Binding PropertyIndexer[code.firstFile]}" IsEnabled="{Binding PropertyIndexer[code.setFirstFile], FallbackValue=false}" ItemsSource="{Binding Files}" />
+              <CheckBox Margin="4,4,4,0" IsChecked="{Binding PropertyIndexer[code.generateSelfRelocatingCode]}">Generate self-relocating code</CheckBox>
+            </StackPanel>
+          </ScrollViewer>
+        </TabItem>
+        <TabItem>
+          <TabItem.Header>
+            <TextBlock TextBlock.FontWeight="Light" Text="Output format(s)" Width="200" Margin="0,5" />
+          </TabItem.Header>
+          <ScrollViewer>
+            <StackPanel>
+              <CheckBox Margin="4,4,4,0" IsChecked="{Binding PropertyIndexer[code.generateBinaryOutput]}">Generate binary output:</CheckBox>
+              <TextBox HorizontalAlignment="Left" Width="200" Margin="20,2,10,0" Text="{Binding PropertyIndexer[code.binaryOutputFilename], UpdateSourceTrigger=PropertyChanged}" />
+              <CheckBox Margin="4,4,4,0" IsChecked="{Binding PropertyIndexer[code.generateHexOutput]}">Generate hex (DAT directive) output:</CheckBox>
+              <TextBox HorizontalAlignment="Left" Width="200" Margin="20,2,10,0" Text="{Binding PropertyIndexer[code.hexOutputFilename], UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+          </ScrollViewer>
+        </TabItem>
+      </TabControl>
+    </DockPanel>
+  </Grid>
+</UserControl>
